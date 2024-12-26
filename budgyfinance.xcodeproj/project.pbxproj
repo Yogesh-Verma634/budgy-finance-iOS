@@ -7,14 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		19CB81F62D1773AC00FB3F19 /* budgyfinanceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB81F52D1773AC00FB3F19 /* budgyfinanceApp.swift */; };
-		19CB81F82D1773AC00FB3F19 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB81F72D1773AC00FB3F19 /* ContentView.swift */; };
-		19CB81FA2D1773AC00FB3F19 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB81F92D1773AC00FB3F19 /* Item.swift */; };
+		1956E3662D1BB185003F6EFF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1956E3652D1BB185003F6EFF /* FirebaseAnalytics */; };
+		1956E3682D1BB393003F6EFF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1956E3672D1BB393003F6EFF /* FirebaseStorage */; };
+		1956E36A2D1BB878003F6EFF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1956E3692D1BB878003F6EFF /* FirebaseFirestore */; };
+		1956E36C2D1BB9B6003F6EFF /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 1956E36B2D1BB9B6003F6EFF /* FirebaseCore */; };
+		197B82092D1C89BB000FC681 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B82082D1C89B8000FC681 /* CameraView.swift */; };
+		197B820D2D1C89D6000FC681 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B820C2D1C89D3000FC681 /* DashboardView.swift */; };
+		197B820F2D1C89E1000FC681 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B820E2D1C89DE000FC681 /* CoreDataManager.swift */; };
+		197B82132D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 197B82112D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodeld */; };
+		197B82152D1CB1B5000FC681 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B82142D1CA884000FC681 /* Receipt.swift */; };
+		197B82172D1CBDEE000FC681 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B82162D1CBDEB000FC681 /* HistoryView.swift */; };
+		197B82192D1CBE04000FC681 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B82182D1CBE00000FC681 /* ProfileView.swift */; };
+		197B821B2D1CC05D000FC681 /* CaptureButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B821A2D1CC059000FC681 /* CaptureButtonView.swift */; };
+		197B821D2D1CC333000FC681 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B821C2D1CC331000FC681 /* HomeView.swift */; };
+		197B821F2D1CC35A000FC681 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B821E2D1CC356000FC681 /* StatsView.swift */; };
+		19CB81F82D1773AC00FB3F19 /* BudgyFinanceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB81F72D1773AC00FB3F19 /* BudgyFinanceApp.swift */; };
 		19CB81FC2D1773AD00FB3F19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 19CB81FB2D1773AD00FB3F19 /* Assets.xcassets */; };
 		19CB82002D1773AD00FB3F19 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 19CB81FF2D1773AD00FB3F19 /* Preview Assets.xcassets */; };
 		19CB820A2D1773AD00FB3F19 /* budgyfinanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB82092D1773AD00FB3F19 /* budgyfinanceTests.swift */; };
 		19CB82142D1773AD00FB3F19 /* budgyfinanceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB82132D1773AD00FB3F19 /* budgyfinanceUITests.swift */; };
 		19CB82162D1773AD00FB3F19 /* budgyfinanceUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB82152D1773AD00FB3F19 /* budgyfinanceUITestsLaunchTests.swift */; };
+		19EF0D002D1BCBB300BEB196 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 19EF0CFF2D1BCBB300BEB196 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,10 +48,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		197B82082D1C89B8000FC681 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		197B820C2D1C89D3000FC681 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		197B820E2D1C89DE000FC681 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		197B82122D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BudgyFinanceModel.xcdatamodel; sourceTree = "<group>"; };
+		197B82142D1CA884000FC681 /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
+		197B82162D1CBDEB000FC681 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		197B82182D1CBE00000FC681 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		197B821A2D1CC059000FC681 /* CaptureButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureButtonView.swift; sourceTree = "<group>"; };
+		197B821C2D1CC331000FC681 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		197B821E2D1CC356000FC681 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		19CB81F22D1773AC00FB3F19 /* budgyfinance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = budgyfinance.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		19CB81F52D1773AC00FB3F19 /* budgyfinanceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = budgyfinanceApp.swift; sourceTree = "<group>"; };
-		19CB81F72D1773AC00FB3F19 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		19CB81F92D1773AC00FB3F19 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		19CB81F72D1773AC00FB3F19 /* BudgyFinanceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgyFinanceApp.swift; sourceTree = "<group>"; };
 		19CB81FB2D1773AD00FB3F19 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		19CB81FD2D1773AD00FB3F19 /* budgyfinance.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = budgyfinance.entitlements; sourceTree = "<group>"; };
 		19CB81FF2D1773AD00FB3F19 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -47,6 +68,7 @@
 		19CB820F2D1773AD00FB3F19 /* budgyfinanceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = budgyfinanceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		19CB82132D1773AD00FB3F19 /* budgyfinanceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = budgyfinanceUITests.swift; sourceTree = "<group>"; };
 		19CB82152D1773AD00FB3F19 /* budgyfinanceUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = budgyfinanceUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		19EF0CFF2D1BCBB300BEB196 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +76,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1956E3662D1BB185003F6EFF /* FirebaseAnalytics in Frameworks */,
+				1956E3682D1BB393003F6EFF /* FirebaseStorage in Frameworks */,
+				1956E36C2D1BB9B6003F6EFF /* FirebaseCore in Frameworks */,
+				1956E36A2D1BB878003F6EFF /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +100,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1956E3642D1BB11F003F6EFF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		19CB81E92D1773AC00FB3F19 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +114,7 @@
 				19CB82082D1773AD00FB3F19 /* budgyfinanceTests */,
 				19CB82122D1773AD00FB3F19 /* budgyfinanceUITests */,
 				19CB81F32D1773AC00FB3F19 /* Products */,
+				1956E3642D1BB11F003F6EFF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,12 +131,21 @@
 		19CB81F42D1773AC00FB3F19 /* budgyfinance */ = {
 			isa = PBXGroup;
 			children = (
-				19CB81F52D1773AC00FB3F19 /* budgyfinanceApp.swift */,
-				19CB81F72D1773AC00FB3F19 /* ContentView.swift */,
-				19CB81F92D1773AC00FB3F19 /* Item.swift */,
+				197B821E2D1CC356000FC681 /* StatsView.swift */,
+				197B821C2D1CC331000FC681 /* HomeView.swift */,
+				197B821A2D1CC059000FC681 /* CaptureButtonView.swift */,
+				197B82182D1CBE00000FC681 /* ProfileView.swift */,
+				197B82162D1CBDEB000FC681 /* HistoryView.swift */,
+				197B820E2D1C89DE000FC681 /* CoreDataManager.swift */,
+				197B820C2D1C89D3000FC681 /* DashboardView.swift */,
+				197B82082D1C89B8000FC681 /* CameraView.swift */,
+				19EF0CFF2D1BCBB300BEB196 /* GoogleService-Info.plist */,
+				19CB81F72D1773AC00FB3F19 /* BudgyFinanceApp.swift */,
 				19CB81FB2D1773AD00FB3F19 /* Assets.xcassets */,
 				19CB81FD2D1773AD00FB3F19 /* budgyfinance.entitlements */,
 				19CB81FE2D1773AD00FB3F19 /* Preview Content */,
+				197B82112D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodeld */,
+				197B82142D1CA884000FC681 /* Receipt.swift */,
 			);
 			path = budgyfinance;
 			sourceTree = "<group>";
@@ -148,6 +191,12 @@
 			dependencies = (
 			);
 			name = budgyfinance;
+			packageProductDependencies = (
+				1956E3652D1BB185003F6EFF /* FirebaseAnalytics */,
+				1956E3672D1BB393003F6EFF /* FirebaseStorage */,
+				1956E3692D1BB878003F6EFF /* FirebaseFirestore */,
+				1956E36B2D1BB9B6003F6EFF /* FirebaseCore */,
+			);
 			productName = budgyfinance;
 			productReference = 19CB81F22D1773AC00FB3F19 /* budgyfinance.app */;
 			productType = "com.apple.product-type.application";
@@ -196,7 +245,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					19CB81F12D1773AC00FB3F19 = {
 						CreatedOnToolsVersion = 15.4;
@@ -220,6 +269,9 @@
 				Base,
 			);
 			mainGroup = 19CB81E92D1773AC00FB3F19;
+			packageReferences = (
+				1956E3612D1B33C5003F6EFF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 19CB81F32D1773AC00FB3F19 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -237,6 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				19CB82002D1773AD00FB3F19 /* Preview Assets.xcassets in Resources */,
+				19EF0D002D1BCBB300BEB196 /* GoogleService-Info.plist in Resources */,
 				19CB81FC2D1773AD00FB3F19 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,9 +315,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19CB81F82D1773AC00FB3F19 /* ContentView.swift in Sources */,
-				19CB81FA2D1773AC00FB3F19 /* Item.swift in Sources */,
-				19CB81F62D1773AC00FB3F19 /* budgyfinanceApp.swift in Sources */,
+				197B821F2D1CC35A000FC681 /* StatsView.swift in Sources */,
+				19CB81F82D1773AC00FB3F19 /* BudgyFinanceApp.swift in Sources */,
+				197B82192D1CBE04000FC681 /* ProfileView.swift in Sources */,
+				197B82172D1CBDEE000FC681 /* HistoryView.swift in Sources */,
+				197B821D2D1CC333000FC681 /* HomeView.swift in Sources */,
+				197B820D2D1C89D6000FC681 /* DashboardView.swift in Sources */,
+				197B82152D1CB1B5000FC681 /* Receipt.swift in Sources */,
+				197B820F2D1C89E1000FC681 /* CoreDataManager.swift in Sources */,
+				197B82132D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodeld in Sources */,
+				197B821B2D1CC05D000FC681 /* CaptureButtonView.swift in Sources */,
+				197B82092D1C89BB000FC681 /* CameraView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +418,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -411,6 +473,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -423,6 +486,7 @@
 				CODE_SIGN_ENTITLEMENTS = budgyfinance/budgyfinance.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"budgyfinance/Preview Content\"";
 				DEVELOPMENT_TEAM = H2NNH6ZF8X;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -439,8 +503,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(inherited)",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=iphoneos*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.budgyfinance;
@@ -461,6 +529,7 @@
 				CODE_SIGN_ENTITLEMENTS = budgyfinance/budgyfinance.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"budgyfinance/Preview Content\"";
 				DEVELOPMENT_TEAM = H2NNH6ZF8X;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -478,7 +547,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=iphoneos*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.budgyfinance;
@@ -494,10 +563,10 @@
 		19CB821D2D1773AD00FB3F19 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = H2NNH6ZF8X;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
@@ -517,10 +586,10 @@
 		19CB821E2D1773AD00FB3F19 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = H2NNH6ZF8X;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
@@ -540,9 +609,9 @@
 		19CB82202D1773AD00FB3F19 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = H2NNH6ZF8X;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
@@ -562,9 +631,9 @@
 		19CB82212D1773AD00FB3F19 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = H2NNH6ZF8X;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
@@ -621,6 +690,53 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1956E3612D1B33C5003F6EFF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1956E3652D1BB185003F6EFF /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1956E3612D1B33C5003F6EFF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		1956E3672D1BB393003F6EFF /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1956E3612D1B33C5003F6EFF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		1956E3692D1BB878003F6EFF /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1956E3612D1B33C5003F6EFF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		1956E36B2D1BB9B6003F6EFF /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1956E3612D1B33C5003F6EFF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		197B82112D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				197B82122D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodel */,
+			);
+			currentVersion = 197B82122D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodel */;
+			path = BudgyFinanceModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 19CB81EA2D1773AC00FB3F19 /* Project object */;
 }
