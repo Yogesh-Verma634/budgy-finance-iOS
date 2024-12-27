@@ -1,10 +1,3 @@
-//
-//  StatsView.swift
-//  budgyfinance
-//
-//  Created by Yogesh Verma on 25/12/24.
-//
-
 import SwiftUI
 
 struct StatsView: View {
@@ -29,45 +22,9 @@ struct StatsView: View {
                             .font(.largeTitle)
                             .foregroundColor(.primary)
                     }
-
-                    Spacer()
-
-                    VStack(alignment: .trailing) {
-                        Text("vs Last Month")
-                            .font(.headline)
-                        Text("+15%")
-                            .font(.headline)
-                            .foregroundColor(.red)
-                    }
                 }
                 .padding()
 
-                Text("Top Categories")
-                    .font(.headline)
-                    .padding(.horizontal)
-
-                List {
-                    HStack {
-                        Text("Food")
-                        Spacer()
-                        Text("35%")
-                            .foregroundColor(.blue)
-                    }
-
-                    HStack {
-                        Text("Housing")
-                        Spacer()
-                        Text("28%")
-                            .foregroundColor(.green)
-                    }
-
-                    HStack {
-                        Text("Transport")
-                        Spacer()
-                        Text("20%")
-                            .foregroundColor(.purple)
-                    }
-                }
                 Spacer()
             }
         }
@@ -78,12 +35,14 @@ struct StatsView: View {
     }
 
     private func fetchReceipts() {
-        FirestoreManager.shared.fetchReceipts(forUser: "exampleUserId") { result in
+        FirestoreManager.shared.fetchReceipts { result in
             switch result {
             case .success(let fetchedReceipts):
-                receipts = fetchedReceipts
-                totalSpent = fetchedReceipts.reduce(0) { $0 + ($1.totalAmount ?? 0) }
-                isLoading = false
+                DispatchQueue.main.async {
+                    receipts = fetchedReceipts
+                    totalSpent = fetchedReceipts.reduce(0) { $0 + ($1.totalAmount ?? 0) }
+                    isLoading = false
+                }
             case .failure(let error):
                 print("Failed to fetch receipts: \(error.localizedDescription)")
                 isLoading = false

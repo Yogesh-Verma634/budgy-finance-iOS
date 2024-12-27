@@ -4,11 +4,8 @@ struct ReceiptDetailView: View {
     let receipt: Receipt
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Receipt Details")
-                .font(.largeTitle)
-                .padding()
-
+        VStack {
+            // Store details at the top
             VStack(alignment: .leading, spacing: 10) {
                 Text("Store Name: \(receipt.storeName ?? "Unknown")")
                     .font(.headline)
@@ -19,27 +16,47 @@ struct ReceiptDetailView: View {
             }
             .padding()
 
-            Text("Items:")
-                .font(.headline)
-                .padding(.top)
+            Divider() // Visual separator
 
-            if let items = receipt.items {
-                List(items) { item in
+            // Items purchased
+            if let items = receipt.items, !items.isEmpty {
+                LazyVStack {
+                    // Table headers
                     HStack {
-                        Text(item.name ?? "Unknown Item")
+                        Text("Item")
+                            .bold()
                         Spacer()
-                        Text("Qty: \(item.quantity ?? 0)")
-                        Text("$\(item.price ?? 0, specifier: "%.2f")")
+                        Text("Qty")
+                            .bold()
+                        Spacer()
+                        Text("Price")
+                            .bold()
+                    }
+                    .padding(.bottom, 8)
+
+                    // Table rows
+                    ForEach(items) { item in
+                        HStack {
+                            Text(item.name ?? "Unknown Item")
+                            Spacer()
+                            Text("\(item.quantity ?? 0, specifier: "%.0f")")
+                            Spacer()
+                            Text("$\(item.price ?? 0.0, specifier: "%.2f")")
+                        }
+                        .padding(.vertical, 4)
                     }
                 }
-                .listStyle(InsetGroupedListStyle())
+                .padding()
             } else {
+                // Fallback for no items
                 Text("No items found.")
+                    .foregroundColor(.gray)
+                    .padding()
             }
 
             Spacer()
         }
-        .padding()
-        .navigationTitle("Receipt Details")
+        .navigationTitle(receipt.storeName ?? "Receipt Details")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }

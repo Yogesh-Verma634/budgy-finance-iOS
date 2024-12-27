@@ -1,1 +1,7 @@
+# Sensitive Configuration Files
+*.plist
+.env
+.env.*
+
+# Specific with plist files (recommended)
 GoogleService-Info.plist

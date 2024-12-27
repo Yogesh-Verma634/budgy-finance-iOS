@@ -20,22 +20,48 @@ class FirestoreManager {
         }
     }
 
-    // Fetch receipts
-    func fetchReceipts(forUser userId: String, completion: @escaping (Result<[Receipt], Error>) -> Void) {
-        db.collection("users").document(userId).collection("receipts").getDocuments { snapshot, error in
-            if let error = error {
-                completion(.failure(error))
-            } else if let documents = snapshot?.documents {
-                do {
-                    let receipts: [Receipt] = try documents.map { document in
-                        let receipt = try document.data(as: Receipt.self)
-                        return receipt
-                    }
-                    completion(.success(receipts))
-                } catch {
+    // Centralized fetch function for receipts
+    func fetchReceipts(completion: @escaping (Result<[Receipt], Error>) -> Void) {
+        let db = Firestore.firestore()
+        db.collection("receipts")
+            .getDocuments { snapshot, error in
+                if let error = error {
                     completion(.failure(error))
+                    return
                 }
+
+                guard let documents = snapshot?.documents else {
+                    completion(.success([]))
+                    return
+                }
+
+                var decodedReceipts: [Receipt] = []
+
+                for document in documents {
+                    let data = document.data()
+                    print("Raw Document Data: \(data)") // Debugging
+
+                    // Manually map the document to the `Receipt` model
+                    let receipt = Receipt(
+                        id: document.documentID, // Extract the Firestore document ID
+                        storeName: data["storeName"] as? String,
+                        date: (data["date"] as? Timestamp)?.dateValue().description ?? data["date"] as? String,
+                        totalAmount: data["totalAmount"] as? Double,
+                        taxAmount: data["taxAmount"] as? Double,
+                        tipAmount: data["tipAmount"] as? Double,
+                        items: (data["items"] as? [[String: Any]])?.compactMap { itemData in
+                            ReceiptItem(
+                                name: itemData["name"] as? String,
+                                price: itemData["price"] as? Double,
+                                quantity: itemData["quantity"] as? Double
+                            )
+                        }
+                    )
+
+                    decodedReceipts.append(receipt)
+                }
+
+                completion(.success(decodedReceipts))
             }
-        }
     }
 }

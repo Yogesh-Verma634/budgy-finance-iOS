@@ -1,5 +1,5 @@
 {
-  "originHash" : "10eae67dde24489b80f4b4af7e074afabd37dc2acb948219135a230e9bf50210",
+  "originHash" : "593355e9ff09987a4868e308abf64e3084e226f088fb25ccbb4465e80eb12327",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -98,6 +98,15 @@
       "state" : {
         "revision" : "b7e1104502eca3a213b46303391ca4d3bc8ddec1",
         "version" : "2.30910.0"
+      }
+    },
+    {
+      "identity" : "openaikit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/OpenDive/OpenAIKit",
+      "state" : {
+        "revision" : "1ae438e665433273474d330a74241a1c55742a79",
+        "version" : "2.0.1"
       }
     },
     {

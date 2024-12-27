@@ -205,7 +205,7 @@ class ReceiptProcessor {
         ]
 
         // Save to Firestore
-        db.collection("receipts").document(receipt.id).setData(receiptData) { error in
+        db.collection("receipts").document(receipt.id ?? "unknown").setData(receiptData) { error in
             if let error = error {
                 print("Error saving receipt to Firestore: \(error.localizedDescription)")
             } else {

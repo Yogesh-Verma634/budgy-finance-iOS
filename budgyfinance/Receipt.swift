@@ -1,7 +1,7 @@
 import Foundation
 
 struct Receipt: Codable, Identifiable {
-    var id: String = UUID().uuidString
+    var id: String? // Document ID from Firestore
     var storeName: String?
     var date: String? // Keep as String for compatibility with OpenAI response
     var totalAmount: Double?

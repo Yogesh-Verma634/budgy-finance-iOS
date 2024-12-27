@@ -2,7 +2,7 @@ import SwiftUI
 import Charts
 
 struct DashboardView: View {
-    @State private var receipts: [Receipt] = [] // Replace with data from Firestore
+    @State private var receipts: [Receipt] = []
     @State private var monthlyGoal: Double = 2000.0
 
     var totalSpent: Double {
@@ -32,24 +32,7 @@ struct DashboardView: View {
                     }
                     .frame(height: 300)
                     .padding()
-
-                    Text("Category Breakdown")
-                        .font(.headline)
-                    Chart {
-                        ForEach(receipts, id: \.id) { receipt in
-                            BarMark(
-                                x: .value("Items", receipt.items?.count ?? 0),
-                                y: .value("Amount", receipt.totalAmount ?? 0.0)
-                            )
-                        }
-                    }
-                    .frame(height: 300)
-                    .padding()
                 }
-
-                Text("Spending Insights")
-                    .font(.headline)
-                    .padding()
 
                 Text("You're on track! Remaining budget: $\(monthlyGoal - totalSpent, specifier: "%.2f")")
                     .padding()
@@ -57,19 +40,12 @@ struct DashboardView: View {
             }
         }
         .onAppear {
-            loadReceipts()
+            fetchReceipts()
         }
     }
 
-    private func formattedDate(_ date: Date?) -> String {
-        guard let date = date else { return "Unknown Date" }
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        return formatter.string(from: date)
-    }
-
-    private func loadReceipts() {
-        FirestoreManager.shared.fetchReceipts(forUser: "exampleUserId") { result in
+    private func fetchReceipts() {
+        FirestoreManager.shared.fetchReceipts { result in
             switch result {
             case .success(let fetchedReceipts):
                 DispatchQueue.main.async {
