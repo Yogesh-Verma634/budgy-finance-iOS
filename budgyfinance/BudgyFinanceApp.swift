@@ -1,8 +1,11 @@
 import SwiftUI
+import Firebase
 
 @main
 struct BudgyFinanceApp: App {
-    let persistenceController = CoreDataManager.shared
+    init() {
+            FirebaseApp.configure() // Initialize Firebase
+        }
 
     var body: some Scene {
         WindowGroup {
@@ -32,7 +35,6 @@ struct BudgyFinanceApp: App {
                         Label("Profile", systemImage: "person")
                     }
             }
-            .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

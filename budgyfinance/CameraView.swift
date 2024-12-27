@@ -1,5 +1,4 @@
 import SwiftUI
-import Vision
 import UIKit
 
 struct CameraView: UIViewControllerRepresentable {
@@ -8,6 +7,7 @@ struct CameraView: UIViewControllerRepresentable {
     }
 
     @Binding var sourceType: SourceType
+    @Binding var receiptData: Receipt?
 
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
@@ -29,38 +29,16 @@ struct CameraView: UIViewControllerRepresentable {
             self.parent = parent
         }
 
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let image = info[.originalImage] as? UIImage {
-                processImage(image)
-            }
-            picker.dismiss(animated: true)
-        }
-
-        private func processImage(_ image: UIImage) {
-            guard let cgImage = image.cgImage else { return }
-            let request = VNRecognizeTextRequest { (request, error) in
-                guard let observations = request.results as? [VNRecognizedTextObservation] else { return }
-                
-                let context = CoreDataManager.shared.container.viewContext
-                let receipt = Receipt(context: context)
-                receipt.date = Date()
-                receipt.totalAmount = 0.0
-                receipt.items = ""
-                
-                for observation in observations {
-                    if let topCandidate = observation.topCandidates(1).first {
-                        print("Recognized text: \(topCandidate.string)")
+                ReceiptProcessor.processImage(image) { receiptData in
+                    DispatchQueue.main.async {
+                        self.parent.receiptData = receiptData
+                        print("Receipt processed successfully!")
                     }
                 }
-
-                do {
-                    try context.save()
-                } catch {
-                    print("Failed to save receipt: \(error)")
-                }
             }
-            let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-            try? handler.perform([request])
+            picker.dismiss(animated: true)
         }
     }
 }

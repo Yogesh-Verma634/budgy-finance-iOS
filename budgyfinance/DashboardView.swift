@@ -1,59 +1,55 @@
 import SwiftUI
 import Charts
 
-struct DashboardView: View {
-    @FetchRequest(fetchRequest: Receipt.fetchAll()) var receipts: FetchedResults<Receipt>
-    @State private var monthlyGoal: Double = 2000.0
-
-    var totalSpent: Double {
-        receipts.reduce(0) { $0 + $1.totalAmount }
-    }
+struct EditableReceiptView: View {
+    @Binding var receiptData: Receipt
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                Text("Spending Overview")
-                    .font(.title2)
-                    .padding()
-
-                Chart {
-                    ForEach(receipts) { receipt in
-                        BarMark(
-                            x: .value("Date", formattedDate(receipt.date)),
-                            y: .value("Amount", receipt.totalAmount)
-                        )
-                    }
-                }
-                .frame(height: 300)
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Edit Receipt")
+                .font(.title2)
                 .padding()
 
-                Text("Category Breakdown")
-                    .font(.headline)
-                Chart {
-                    ForEach(receipts) { receipt in
-                        BarMark(
-                            x: .value("Items", receipt.items),
-                            y: .value("Amount", receipt.totalAmount)
-                        )
-                    }
+            ForEach(receiptData.items.indices, id: \.self) { index in
+                HStack {
+                    TextField("Item Name", text: $receiptData.items[index].name)
+                    TextField("Price", value: $receiptData.items[index].price, format: .number)
+                        .keyboardType(.decimalPad)
                 }
-                .frame(height: 300)
-                .padding()
+            }
 
-                Text("Spending Insights")
+            HStack {
+                Text("Total:")
                     .font(.headline)
-                    .padding()
+                Spacer()
+                Text("$\(receiptData.totalAmount, specifier: "%.2f")")
+                    .font(.headline)
+            }
 
-                Text("You're on track! Remaining budget: $\(monthlyGoal - totalSpent, specifier: "%.2f")")
+            Button(action: {
+                // Save updated receipt data
+                print("Receipt saved!")
+            }) {
+                Text("Save Receipt")
+                    .frame(maxWidth: .infinity)
                     .padding()
-                    .foregroundColor(.blue)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
+
+            Button(action: {
+                // Cancel edits
+                print("Editing canceled.")
+            }) {
+                Text("Cancel")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.gray.opacity(0.2))
+                    .foregroundColor(.black)
+                    .cornerRadius(10)
             }
         }
-    }
-
-    private func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        return formatter.string(from: date)
+        .padding()
     }
 }

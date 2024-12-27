@@ -13,9 +13,6 @@
 		1956E36C2D1BB9B6003F6EFF /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 1956E36B2D1BB9B6003F6EFF /* FirebaseCore */; };
 		197B82092D1C89BB000FC681 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B82082D1C89B8000FC681 /* CameraView.swift */; };
 		197B820D2D1C89D6000FC681 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B820C2D1C89D3000FC681 /* DashboardView.swift */; };
-		197B820F2D1C89E1000FC681 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B820E2D1C89DE000FC681 /* CoreDataManager.swift */; };
-		197B82132D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 197B82112D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodeld */; };
-		197B82152D1CB1B5000FC681 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B82142D1CA884000FC681 /* Receipt.swift */; };
 		197B82172D1CBDEE000FC681 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B82162D1CBDEB000FC681 /* HistoryView.swift */; };
 		197B82192D1CBE04000FC681 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B82182D1CBE00000FC681 /* ProfileView.swift */; };
 		197B821B2D1CC05D000FC681 /* CaptureButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B821A2D1CC059000FC681 /* CaptureButtonView.swift */; };
@@ -27,6 +24,9 @@
 		19CB820A2D1773AD00FB3F19 /* budgyfinanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB82092D1773AD00FB3F19 /* budgyfinanceTests.swift */; };
 		19CB82142D1773AD00FB3F19 /* budgyfinanceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB82132D1773AD00FB3F19 /* budgyfinanceUITests.swift */; };
 		19CB82162D1773AD00FB3F19 /* budgyfinanceUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB82152D1773AD00FB3F19 /* budgyfinanceUITestsLaunchTests.swift */; };
+		19DF928F2D1E571C004D9F7B /* ReceiptProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DF928E2D1E571C004D9F7B /* ReceiptProcessor.swift */; };
+		19DF92932D1E5EFE004D9F7B /* FirebaseFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DF92922D1E5EFD004D9F7B /* FirebaseFirestoreManager.swift */; };
+		19DF92962D1E614D004D9F7B /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DF92952D1E614C004D9F7B /* FirestoreManager.swift */; };
 		19EF0D002D1BCBB300BEB196 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 19EF0CFF2D1BCBB300BEB196 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -50,9 +50,6 @@
 /* Begin PBXFileReference section */
 		197B82082D1C89B8000FC681 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		197B820C2D1C89D3000FC681 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
-		197B820E2D1C89DE000FC681 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		197B82122D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BudgyFinanceModel.xcdatamodel; sourceTree = "<group>"; };
-		197B82142D1CA884000FC681 /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
 		197B82162D1CBDEB000FC681 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		197B82182D1CBE00000FC681 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		197B821A2D1CC059000FC681 /* CaptureButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureButtonView.swift; sourceTree = "<group>"; };
@@ -69,6 +66,10 @@
 		19CB820F2D1773AD00FB3F19 /* budgyfinanceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = budgyfinanceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		19CB82132D1773AD00FB3F19 /* budgyfinanceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = budgyfinanceUITests.swift; sourceTree = "<group>"; };
 		19CB82152D1773AD00FB3F19 /* budgyfinanceUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = budgyfinanceUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		19DF928E2D1E571C004D9F7B /* ReceiptProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptProcessor.swift; sourceTree = "<group>"; };
+		19DF92922D1E5EFD004D9F7B /* FirebaseFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreManager.swift; sourceTree = "<group>"; };
+		19DF92942D1E610F004D9F7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		19DF92952D1E614C004D9F7B /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		19EF0CFF2D1BCBB300BEB196 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,13 +133,15 @@
 		19CB81F42D1773AC00FB3F19 /* budgyfinance */ = {
 			isa = PBXGroup;
 			children = (
+				19DF92952D1E614C004D9F7B /* FirestoreManager.swift */,
+				19DF92922D1E5EFD004D9F7B /* FirebaseFirestoreManager.swift */,
 				197B82202D1E4C3E000FC681 /* Info.plist */,
+				19DF928E2D1E571C004D9F7B /* ReceiptProcessor.swift */,
 				197B821E2D1CC356000FC681 /* StatsView.swift */,
 				197B821C2D1CC331000FC681 /* HomeView.swift */,
 				197B821A2D1CC059000FC681 /* CaptureButtonView.swift */,
 				197B82182D1CBE00000FC681 /* ProfileView.swift */,
 				197B82162D1CBDEB000FC681 /* HistoryView.swift */,
-				197B820E2D1C89DE000FC681 /* CoreDataManager.swift */,
 				197B820C2D1C89D3000FC681 /* DashboardView.swift */,
 				197B82082D1C89B8000FC681 /* CameraView.swift */,
 				19EF0CFF2D1BCBB300BEB196 /* GoogleService-Info.plist */,
@@ -146,8 +149,7 @@
 				19CB81FB2D1773AD00FB3F19 /* Assets.xcassets */,
 				19CB81FD2D1773AD00FB3F19 /* budgyfinance.entitlements */,
 				19CB81FE2D1773AD00FB3F19 /* Preview Content */,
-				197B82112D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodeld */,
-				197B82142D1CA884000FC681 /* Receipt.swift */,
+				19DF92942D1E610F004D9F7B /* AppDelegate.swift */,
 			);
 			path = budgyfinance;
 			sourceTree = "<group>";
@@ -318,15 +320,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				197B821F2D1CC35A000FC681 /* StatsView.swift in Sources */,
+				19DF928F2D1E571C004D9F7B /* ReceiptProcessor.swift in Sources */,
 				19CB81F82D1773AC00FB3F19 /* BudgyFinanceApp.swift in Sources */,
 				197B82192D1CBE04000FC681 /* ProfileView.swift in Sources */,
 				197B82172D1CBDEE000FC681 /* HistoryView.swift in Sources */,
 				197B821D2D1CC333000FC681 /* HomeView.swift in Sources */,
 				197B820D2D1C89D6000FC681 /* DashboardView.swift in Sources */,
-				197B82152D1CB1B5000FC681 /* Receipt.swift in Sources */,
-				197B820F2D1C89E1000FC681 /* CoreDataManager.swift in Sources */,
-				197B82132D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodeld in Sources */,
+				19DF92962D1E614D004D9F7B /* FirestoreManager.swift in Sources */,
 				197B821B2D1CC05D000FC681 /* CaptureButtonView.swift in Sources */,
+				19DF92932D1E5EFE004D9F7B /* FirebaseFirestoreManager.swift in Sources */,
 				197B82092D1C89BB000FC681 /* CameraView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -730,19 +732,6 @@
 			productName = FirebaseCore;
 		};
 /* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		197B82112D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				197B82122D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodel */,
-			);
-			currentVersion = 197B82122D1CA54B000FC681 /* BudgyFinanceModel.xcdatamodel */;
-			path = BudgyFinanceModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 19CB81EA2D1773AC00FB3F19 /* Project object */;
 }
