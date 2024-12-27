@@ -82,7 +82,7 @@ struct StatsView: View {
             switch result {
             case .success(let fetchedReceipts):
                 receipts = fetchedReceipts
-                totalSpent = fetchedReceipts.reduce(0) { $0 + $1.totalAmount }
+                totalSpent = fetchedReceipts.reduce(0) { $0 + ($1.totalAmount ?? 0) }
                 isLoading = false
             case .failure(let error):
                 print("Failed to fetch receipts: \(error.localizedDescription)")

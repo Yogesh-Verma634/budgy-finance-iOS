@@ -20,8 +20,8 @@ struct CaptureView: View {
             .padding()
 
             if let receipt = receiptData {
-                Text("Receipt from \(receipt.storeName)")
-                Text("Total: $\(receipt.totalAmount, specifier: "%.2f")")
+                Text("Receipt from \(receipt.storeName ?? "Unknown Store")")
+                Text("Total: $\(receipt.totalAmount ?? 0, specifier: "%.2f")")
             }
         }
         .sheet(isPresented: $showCameraView) {

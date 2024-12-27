@@ -30,13 +30,18 @@ struct CameraView: UIViewControllerRepresentable {
         }
 
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-            if let image = info[.originalImage] as? UIImage {
-                ReceiptProcessor.processImage(image) { receiptData in
+            if let image = info[.originalImage] as? UIImage, let imageData = image.jpegData(compressionQuality: 0.8) {
+                ReceiptProcessor.processImage(imageData) { receiptData in
                     DispatchQueue.main.async {
-                        self.parent.receiptData = receiptData
-                        print("Receipt processed successfully!")
+                        if let receipt = receiptData {
+                            print("Receipt processed successfully!")
+                        } else {
+                            print("Failed to process receipt.")
+                        }
                     }
                 }
+            } else {
+                print("Failed to convert UIImage to Data")
             }
             picker.dismiss(animated: true)
         }

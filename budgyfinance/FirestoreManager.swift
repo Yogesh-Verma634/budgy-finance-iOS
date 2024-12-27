@@ -1,10 +1,3 @@
-//
-//  FirestoreManager.swift
-//  budgyfinance
-//
-//  Created by Yogesh Verma on 26/12/24.
-//
-
 import FirebaseFirestore
 
 class FirestoreManager {
@@ -13,13 +6,17 @@ class FirestoreManager {
 
     // Save a receipt
     func saveReceipt(_ receipt: Receipt, forUser userId: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        let receiptData = receipt.toDictionary()
-        db.collection("users").document(userId).collection("receipts").addDocument(data: receiptData) { error in
-            if let error = error {
-                completion(.failure(error))
-            } else {
-                completion(.success(()))
+        do {
+            let receiptData = try Firestore.Encoder().encode(receipt)
+            db.collection("users").document(userId).collection("receipts").addDocument(data: receiptData) { error in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(()))
+                }
             }
+        } catch {
+            completion(.failure(error))
         }
     }
 
@@ -29,11 +26,15 @@ class FirestoreManager {
             if let error = error {
                 completion(.failure(error))
             } else if let documents = snapshot?.documents {
-                let receipts: [Receipt] = documents.compactMap { document in
-                    let data = document.data()
-                    return Receipt.fromDictionary(data)
+                do {
+                    let receipts: [Receipt] = try documents.map { document in
+                        let receipt = try document.data(as: Receipt.self)
+                        return receipt
+                    }
+                    completion(.success(receipts))
+                } catch {
+                    completion(.failure(error))
                 }
-                completion(.success(receipts))
             }
         }
     }

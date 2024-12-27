@@ -1,55 +1,83 @@
 import SwiftUI
 import Charts
 
-struct EditableReceiptView: View {
-    @Binding var receiptData: Receipt
+struct DashboardView: View {
+    @State private var receipts: [Receipt] = [] // Replace with data from Firestore
+    @State private var monthlyGoal: Double = 2000.0
+
+    var totalSpent: Double {
+        receipts.reduce(0) { $0 + ($1.totalAmount ?? 0.0) }
+    }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Edit Receipt")
-                .font(.title2)
-                .padding()
+        ScrollView {
+            VStack(alignment: .leading) {
+                Text("Spending Overview")
+                    .font(.title2)
+                    .padding()
 
-            ForEach(receiptData.items.indices, id: \.self) { index in
-                HStack {
-                    TextField("Item Name", text: $receiptData.items[index].name)
-                    TextField("Price", value: $receiptData.items[index].price, format: .number)
-                        .keyboardType(.decimalPad)
+                if receipts.isEmpty {
+                    Text("No data available to display.")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                        .padding()
+                } else {
+                    Chart {
+                        ForEach(receipts, id: \.id) { receipt in
+                            BarMark(
+                                x: .value("Date", receipt.date ?? "1/1/1900"),
+                                y: .value("Amount", receipt.totalAmount ?? 0.0)
+                            )
+                        }
+                    }
+                    .frame(height: 300)
+                    .padding()
+
+                    Text("Category Breakdown")
+                        .font(.headline)
+                    Chart {
+                        ForEach(receipts, id: \.id) { receipt in
+                            BarMark(
+                                x: .value("Items", receipt.items?.count ?? 0),
+                                y: .value("Amount", receipt.totalAmount ?? 0.0)
+                            )
+                        }
+                    }
+                    .frame(height: 300)
+                    .padding()
                 }
-            }
 
-            HStack {
-                Text("Total:")
+                Text("Spending Insights")
                     .font(.headline)
-                Spacer()
-                Text("$\(receiptData.totalAmount, specifier: "%.2f")")
-                    .font(.headline)
-            }
-
-            Button(action: {
-                // Save updated receipt data
-                print("Receipt saved!")
-            }) {
-                Text("Save Receipt")
-                    .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
 
-            Button(action: {
-                // Cancel edits
-                print("Editing canceled.")
-            }) {
-                Text("Cancel")
-                    .frame(maxWidth: .infinity)
+                Text("You're on track! Remaining budget: $\(monthlyGoal - totalSpent, specifier: "%.2f")")
                     .padding()
-                    .background(Color.gray.opacity(0.2))
-                    .foregroundColor(.black)
-                    .cornerRadius(10)
+                    .foregroundColor(.blue)
             }
         }
-        .padding()
+        .onAppear {
+            loadReceipts()
+        }
+    }
+
+    private func formattedDate(_ date: Date?) -> String {
+        guard let date = date else { return "Unknown Date" }
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter.string(from: date)
+    }
+
+    private func loadReceipts() {
+        FirestoreManager.shared.fetchReceipts(forUser: "exampleUserId") { result in
+            switch result {
+            case .success(let fetchedReceipts):
+                DispatchQueue.main.async {
+                    self.receipts = fetchedReceipts
+                }
+            case .failure(let error):
+                print("Error fetching receipts: \(error.localizedDescription)")
+            }
+        }
     }
 }
