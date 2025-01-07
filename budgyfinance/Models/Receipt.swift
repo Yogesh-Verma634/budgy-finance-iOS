@@ -8,6 +8,7 @@ struct Receipt: Codable, Identifiable {
     var taxAmount: Double?
     var tipAmount: Double?
     var items: [ReceiptItem]?
+    var scannedTime: Date? // New property for scanned time
 }
 
 struct ReceiptItem: Codable, Identifiable {

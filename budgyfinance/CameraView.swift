@@ -3,16 +3,17 @@ import UIKit
 
 struct CameraView: UIViewControllerRepresentable {
     enum SourceType {
-        case camera, photoLibrary
+        case camera
+        case photoLibrary
     }
 
     @Binding var sourceType: SourceType
-    @Binding var receiptData: Receipt?
+    @Binding var selectedImage: UIImage?
 
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
-        picker.sourceType = sourceType == .camera ? .camera : .photoLibrary
         picker.delegate = context.coordinator
+        picker.sourceType = sourceType == .camera ? .camera : .photoLibrary
         return picker
     }
 
@@ -23,26 +24,26 @@ struct CameraView: UIViewControllerRepresentable {
     }
 
     class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        let parent: CameraView
+        var parent: CameraView
 
         init(_ parent: CameraView) {
             self.parent = parent
         }
 
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-            if let image = info[.originalImage] as? UIImage, let imageData = image.jpegData(compressionQuality: 0.8) {
-                ReceiptProcessor.processImage(imageData) { receiptData in
-                    DispatchQueue.main.async {
-                        if let receipt = receiptData {
-                            print("Receipt processed successfully!")
-                        } else {
-                            print("Failed to process receipt.")
-                        }
-                    }
-                }
+            if let image = info[.originalImage] as? UIImage {
+                print("Image selected from CameraView")
+                parent.selectedImage = image
             } else {
-                print("Failed to convert UIImage to Data")
+                print("Failed to select image from CameraView")
             }
+            picker.dismiss(animated: true) {
+                print("CameraView dismissed")
+            }
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            print("CameraView selection cancelled")
             picker.dismiss(animated: true)
         }
     }

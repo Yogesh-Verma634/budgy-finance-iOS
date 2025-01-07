@@ -1,38 +1,28 @@
 import SwiftUI
 import Firebase
+import FirebaseAuth
 
 @main
 struct BudgyFinanceApp: App {
+    @StateObject private var authViewModel = AuthViewModel()
+
     init() {
-            FirebaseApp.configure() // Initialize Firebase
-        }
+        FirebaseApp.configure()
+    }
 
     var body: some Scene {
         WindowGroup {
-            TabView {
-                HomeView()
-                    .tabItem {
-                        Label("Home", systemImage: "house")
+            if authViewModel.isAuthenticated {
+                MainTabView()
+                    .environmentObject(authViewModel)
+                    .onAppear {
+                        print("Navigating to MainTabView")
                     }
-
-                StatsView()
-                    .tabItem {
-                        Label("Stats", systemImage: "chart.bar")
-                    }
-
-                CaptureView()
-                    .tabItem {
-                        Label("Scan", systemImage: "camera")
-                    }
-
-                HistoryView()
-                    .tabItem {
-                        Label("History", systemImage: "clock")
-                    }
-
-                ProfileView()
-                    .tabItem {
-                        Label("Profile", systemImage: "person")
+            } else {
+                AuthView()
+                    .environmentObject(authViewModel)
+                    .onAppear {
+                        print("Displaying AuthView")
                     }
             }
         }
