@@ -8,33 +8,53 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @EnvironmentObject var authViewModel: AuthViewModel
+    @StateObject private var firestoreManager = FirestoreManager.shared
+    
     var body: some View {
         TabView {
             HomeView()
                 .tabItem {
-                    Label("Home", systemImage: "house.fill")
+                    Image(systemName: "house.fill")
+                    Text("Home")
                 }
-
-            StatsView()
+            
+            CaptureButtonView()
                 .tabItem {
-                    Label("Stats", systemImage: "chart.bar.fill")
+                    Image(systemName: "camera.fill")
+                    Text("Capture")
                 }
-
-            CaptureView()
-                .tabItem {
-                    Label("Scan", systemImage: "camera.fill")
-                }
-
+            
             HistoryView()
                 .tabItem {
-                    Label("History", systemImage: "clock.fill")
+                    Image(systemName: "clock.fill")
+                    Text("History")
                 }
-
+            
+            StatsView()
+                .tabItem {
+                    Image(systemName: "chart.bar.fill")
+                    Text("Stats")
+                }
+            
             ProfileView()
                 .tabItem {
-                    Label("Profile", systemImage: "person.crop.circle.fill")
+                    Image(systemName: "person.fill")
+                    Text("Profile")
                 }
         }
         .accentColor(.blue)
+        .environmentObject(firestoreManager)
+        .onAppear {
+            // Ensure user is authenticated and verified
+            if !authViewModel.isAuthenticated || !authViewModel.isEmailVerified {
+                authViewModel.checkAuthState()
+            }
+        }
     }
+}
+
+#Preview {
+    MainTabView()
+        .environmentObject(AuthViewModel())
 }

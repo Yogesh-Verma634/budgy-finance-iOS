@@ -2,6 +2,63 @@
 *.plist
 .env
 .env.*
+Config.swift
 
-# Specific with plist files (recommended)
+# Firebase Configuration (CRITICAL - Never commit this!)
 GoogleService-Info.plist
+GoogleService-Info-*.plist
+
+# API Keys and Secrets
+**/config.plist
+**/secrets.plist
+**/api_keys.plist
+
+# Environment Files
+.env.local
+.env.development
+.env.production
+.env.staging
+
+# Xcode User Data
+*.xcuserstate
+*.xcuserdatad/
+xcuserdata/
+
+# Build Products
+build/
+DerivedData/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# iOS
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+Packages/
+*Package.resolved
+
+# CocoaPods
+Pods/
+.xcworkspace/
+# !*.xcworkspace/contents.xcworkspacedata
+# !*.xcworkspace/xcshareddata/
+*.xcworkspace/xcshareddata/swiftpm/Package.resolved
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Code Injection
+iOSInjectionProject/
+
+# Temporary files
+*.tmp
+*.temp

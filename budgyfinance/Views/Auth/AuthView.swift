@@ -2,90 +2,95 @@ import SwiftUI
 
 struct AuthView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
-    @State private var isLogin = true // Toggle between Login and Register
+    @State private var isLogin = true
+    @State private var email = ""
+    @State private var password = ""
 
     var body: some View {
-        VStack {
-            Spacer()
-
-            // Logo and Welcome Text
-            VStack(spacing: 8) {
-                Image("wallet.pass")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 150)
-                    .padding(.bottom, 20)
-                
-                Text("Budgy")
-                    .font(.system(size: 36, weight: .bold, design: .rounded))
-                    .foregroundColor(.primary)
-                
-                Text("Simplify your expenses, master your finances.")
-                    .font(.system(size: 16, weight: .medium, design: .rounded))
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 20)
-            }
-            .padding(.bottom, 40)
-
-            // Input Fields
-            VStack(spacing: 16) {
-                TextField("Email", text: $authViewModel.email)
-                    .autocapitalization(.none)
-                    .textInputAutocapitalization(.never)
-                    .keyboardType(.emailAddress)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .shadow(radius: 1)
-
-                SecureField("Password", text: $authViewModel.password)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .shadow(radius: 1)
-            }
-            .padding(.horizontal, 30)
-
-            // Action Button
-            Button(action: {
-                if isLogin {
-                    authViewModel.login()
-                } else {
-                    authViewModel.register()
-                }
-            }) {
-                Text(isLogin ? "Login" : "Register")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(isLogin ? Color.blue : Color.green)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .shadow(radius: 2)
-            }
-            .padding(.horizontal, 30)
-            .padding(.top, 20)
-
-            // Toggle Between Login and Register
-            Button(action: {
-                isLogin.toggle()
-            }) {
-                Text(isLogin ? "Don't have an account? Register" : "Already have an account? Login")
-                    .font(.subheadline)
-                    .foregroundColor(.blue)
-            }
-            .padding()
-
-            Spacer()
-        }
-        .padding()
-        .background(Color(.systemBackground))
-        .alert(item: $authViewModel.alertMessage) { alert in
-            Alert(
-                title: Text("Error"),
-                message: Text(alert.message),
-                dismissButton: .default(Text("OK"))
+        ZStack {
+            // Background Gradient
+            LinearGradient(
+                gradient: Gradient(colors: [Color.blue.opacity(0.1), Color.purple.opacity(0.1)]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
             )
+            .ignoresSafeArea()
+
+            VStack(spacing: 20) {
+                Spacer()
+
+                // Logo and Welcome Text
+                VStack(spacing: 12) {
+                    LogoView()
+                    
+                    Text("Welcome to Budgy")
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .foregroundColor(.primary)
+                    
+                    Text("Your personal finance companion.")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                .padding(.bottom, 30)
+
+                // Input Fields
+                VStack(spacing: 16) {
+                    CustomTextView(placeholder: "Email", text: $email)
+                        .keyboardType(.emailAddress)
+                    
+                    CustomSecureField(placeholder: "Password", text: $password)
+                }
+
+                // Action Button
+                Button(action: {
+                    if isLogin {
+                        authViewModel.login(email: email, password: password) { success in
+                            if !success {
+                                // Handle login failure if needed
+                            }
+                        }
+                    } else {
+                        authViewModel.register(email: email, password: password) { success in
+                            if !success {
+                                // Handle registration failure if needed
+                            }
+                        }
+                    }
+                }) {
+                    Text(isLogin ? "Sign In" : "Create Account")
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                        .shadow(color: .blue.opacity(0.4), radius: 8, x: 0, y: 4)
+                }
+                .padding(.top, 10)
+
+                // Toggle Between Login and Register
+                Button(action: {
+                    withAnimation {
+                        isLogin.toggle()
+                        email = ""
+                        password = ""
+                    }
+                }) {
+                    Text(isLogin ? "Don't have an account? Sign Up" : "Already have an account? Sign In")
+                        .font(.footnote)
+                        .fontWeight(.medium)
+                        .foregroundColor(.blue)
+                }
+
+                Spacer()
+                Spacer()
+            }
+            .padding(.horizontal, 30)
+        }
+        .alert("Error", isPresented: $authViewModel.showAlert) {
+            Button("OK") { }
+        } message: {
+            Text(authViewModel.alertMessage?.message ?? "An error occurred")
         }
     }
 }

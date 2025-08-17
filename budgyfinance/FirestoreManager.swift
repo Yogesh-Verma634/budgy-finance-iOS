@@ -1,86 +1,169 @@
+import Foundation
 import FirebaseFirestore
-import FirebaseAuth
 
-class FirestoreManager {
+class FirestoreManager: ObservableObject {
     static let shared = FirestoreManager()
+    @Published var receiptsCache: [Receipt] = []
     private let db = Firestore.firestore()
 
-    // Save a receipt
-    func saveReceipt(_ receipt: Receipt, forUser userId: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        do {
-            var receiptData = try Firestore.Encoder().encode(receipt)
-            if let scannedTime = receipt.scannedTime {
-                receiptData["scannedTime"] = Timestamp(date: scannedTime) // Convert Date to Timestamp
-                print("Saving scannedTime: \(scannedTime)") // Debugging
+    func fetchReceipts(forUser userId: String, completion: @escaping (Result<[Receipt], Error>) -> Void) {
+        print("FirestoreManager: Fetching receipts for user: \(userId)")
+        
+        // Check if userId is valid
+        guard !userId.isEmpty else {
+            print("FirestoreManager: Error - userId is empty")
+            completion(.failure(NSError(domain: "FirestoreManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "User ID is empty"])))
+            return
+        }
+        
+        db.collection("users").document(userId).collection("receipts")
+            .getDocuments { snapshot, error in
+            if let error = error {
+                print("FirestoreManager: Error fetching receipts: \(error.localizedDescription)")
+                completion(.failure(error))
+                return
             }
-            db.collection("users").document(userId).collection("receipts").addDocument(data: receiptData) { error in
-                if let error = error {
-                    completion(.failure(error))
-                } else {
-                    completion(.success(()))
+            guard let documents = snapshot?.documents else {
+                print("FirestoreManager: No documents found")
+                completion(.success([]))
+                return
+            }
+            
+            let receipts = documents.compactMap { doc in
+                do {
+                    let receipt = try doc.data(as: Receipt.self)
+                    return receipt
+                } catch {
+                    print("FirestoreManager: Failed to decode document \(doc.documentID): \(error.localizedDescription)")
+                    
+                    // Try manual decoding as fallback
+                    if let manualReceipt = self.manualDecodeReceipt(from: doc.data(), documentId: doc.documentID) {
+                        return manualReceipt
+                    }
+                    
+                    return nil
                 }
             }
+            
+            print("FirestoreManager: Successfully decoded \(receipts.count) receipts out of \(documents.count) documents")
+            
+            // Sort receipts by transaction date and time (most recent first) after fetching
+            let sortedReceipts = receipts.sorted { (receipt1, receipt2) in
+                let date1 = receipt1.parsedTransactionDateTime ?? receipt1.parsedReceiptDate ?? receipt1.scannedTime ?? Date.distantPast
+                let date2 = receipt2.parsedTransactionDateTime ?? receipt2.parsedReceiptDate ?? receipt2.scannedTime ?? Date.distantPast
+                return date1 > date2
+            }
+            
+            DispatchQueue.main.async {
+                self.receiptsCache = sortedReceipts
+            }
+            completion(.success(sortedReceipts))
+        }
+    }
+    
+    // Fallback manual decoding method
+    private func manualDecodeReceipt(from data: [String: Any], documentId: String) -> Receipt? {
+        let storeName = data["storeName"] as? String
+        let date = data["date"] as? String
+        let totalAmount = data["totalAmount"] as? Double
+        let taxAmount = data["taxAmount"] as? Double
+        let tipAmount = data["tipAmount"] as? Double
+        let userId = data["userId"] as? String
+        let category = data["category"] as? String
+        
+        // Handle scannedTime - could be Timestamp or Date
+        var scannedTime: Date?
+        if let timestamp = data["scannedTime"] as? Timestamp {
+            scannedTime = timestamp.dateValue()
+        } else if let dateValue = data["scannedTime"] as? Date {
+            scannedTime = dateValue
+        }
+        
+        // Handle transactionDateTime - could be Timestamp or Date
+        var transactionDateTime: Date?
+        if let timestamp = data["transactionDateTime"] as? Timestamp {
+            transactionDateTime = timestamp.dateValue()
+        } else if let dateValue = data["transactionDateTime"] as? Date {
+            transactionDateTime = dateValue
+        }
+        
+        // Handle items array
+        var items: [ReceiptItem]?
+        if let itemsData = data["items"] as? [[String: Any]] {
+            items = itemsData.compactMap { itemData in
+                let itemId = itemData["id"] as? String ?? UUID().uuidString
+                let name = itemData["name"] as? String
+                let price = itemData["price"] as? Double
+                let quantity = itemData["quantity"] as? Double
+                let itemCategory = itemData["category"] as? String
+                
+                return ReceiptItem(id: itemId, name: name, price: price, quantity: quantity, category: itemCategory)
+            }
+        }
+        
+        return Receipt(
+            id: documentId,
+            storeName: storeName,
+            date: date,
+            totalAmount: totalAmount,
+            taxAmount: taxAmount,
+            tipAmount: tipAmount,
+            items: items,
+            scannedTime: scannedTime,
+            userId: userId,
+            category: category,
+            transactionDateTime: transactionDateTime
+        )
+    }
+
+    func addReceipt(_ receipt: Receipt, forUser userId: String, completion: @escaping (Error?) -> Void) {
+        do {
+            let documentId = receipt.id // Use the receipt's id directly since it's now non-optional
+            let finalReceipt = receipt
+            
+            print("FirestoreManager: Attempting to save receipt with ID '\(documentId)' for user '\(userId)'.")
+            print("FirestoreManager: Receipt data: \(finalReceipt)")
+
+            let ref = db.collection("users").document(userId).collection("receipts").document(documentId)
+            try ref.setData(from: finalReceipt, merge: true) { error in
+                if error == nil {
+                    print("FirestoreManager: setData reported success. Refreshing cache.")
+                    self.refreshCache(forUser: userId)
+                }
+                completion(error)
+            }
         } catch {
-            completion(.failure(error))
+            completion(error)
         }
     }
 
-    // Centralized fetch function for receipts
-    func fetchReceipts(completion: @escaping (Result<[Receipt], Error>) -> Void) {
-        db.collection("users").document(Auth.auth().currentUser?.uid ?? "").collection("receipts")
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-
-                guard let documents = snapshot?.documents else {
-                    completion(.success([]))
-                    return
-                }
-
-                var decodedReceipts: [Receipt] = []
-
-                for document in documents {
-                    let data = document.data()
-                    print("Raw Document Data: \(data)") // Debugging
-
-                    // Manually map the document to the `Receipt` model
-                    let receipt = Receipt(
-                        id: document.documentID, // Extract the Firestore document ID
-                        storeName: data["storeName"] as? String,
-                        date: (data["date"] as? Timestamp)?.dateValue().description ?? data["date"] as? String,
-                        totalAmount: data["totalAmount"] as? Double,
-                        taxAmount: data["taxAmount"] as? Double,
-                        tipAmount: data["tipAmount"] as? Double,
-                        items: (data["items"] as? [[String: Any]])?.compactMap { itemData in
-                            print("Item Data: \(itemData)") // Debugging
-                            return ReceiptItem(
-                                name: itemData["name"] as? String,
-                                price: itemData["price"] as? Double,
-                                quantity: itemData["quantity"] as? Double
-                            )
-                        },
-                        scannedTime: (data["scannedTime"] as? Timestamp)?.dateValue() // Convert Timestamp to Date
-                    )
-
-                    print("Fetched scannedTime: \(receipt.scannedTime ?? Date())") // Debugging
-                    decodedReceipts.append(receipt)
-                }
-
-                print("Decoded Receipts: \(decodedReceipts)") // Debugging
-                completion(.success(decodedReceipts))
+    func deleteReceipt(_ receiptId: String, forUser userId: String, completion: @escaping (Error?) -> Void) {
+        let ref = db.collection("users").document(userId).collection("receipts").document(receiptId)
+        ref.delete { error in
+            if error == nil {
+                self.refreshCache(forUser: userId)
             }
+            completion(error)
+        }
     }
 
-    func deleteReceipt(withId id: String, forUser userId: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        db.collection("users").document(userId).collection("receipts").document(id).delete { error in
-            if let error = error {
-                print("Error deleting receipt: \(error.localizedDescription)")
-                completion(.failure(error))
-            } else {
-                print("Receipt successfully deleted")
-                completion(.success(()))
+    func refreshCache(forUser userId: String) {
+        fetchReceipts(forUser: userId) { result in
+            switch result {
+            case .success(let receipts):
+                DispatchQueue.main.async {
+                    self.receiptsCache = receipts
+                }
+            case .failure(let error):
+                print("Error refreshing cache: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func cacheReceipt(_ receipt: Receipt) {
+        DispatchQueue.main.async {
+            if !self.receiptsCache.contains(where: { $0.id == receipt.id }) {
+                self.receiptsCache.append(receipt)
             }
         }
     }

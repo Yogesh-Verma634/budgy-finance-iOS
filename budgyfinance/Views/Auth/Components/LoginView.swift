@@ -43,7 +43,8 @@ struct LoginView: View {
             } else {
                 errorMessage = "Login successful!"
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    if let window = UIApplication.shared.windows.first {
+                    if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                       let window = scene.windows.first {
                         window.rootViewController = UIHostingController(rootView: MainTabView())
                         window.makeKeyAndVisible()
                     }

@@ -1,15 +1,20 @@
 import SwiftUI
 
 struct CustomTextView: View {
-    @Binding var text: String
     let placeholder: String
-    let keyboardType: UIKeyboardType
-    let autocapitalization: TextInputAutocapitalization
-    
+    @Binding var text: String
+
     var body: some View {
-        TextField(placeholder, text: $text)
-            .keyboardType(keyboardType)
-            .textInputAutocapitalization(.none)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
+        HStack {
+            Image(systemName: "envelope")
+                .foregroundColor(.gray)
+            TextField(placeholder, text: $text)
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
+        }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(12)
+        .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
     }
 }

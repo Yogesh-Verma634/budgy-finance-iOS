@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19113A062E10C0F00046B9D1 /* ModernAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19113A052E10C0F00046B9D1 /* ModernAuthView.swift */; };
+		19113A072E10C0F00046B9D1 /* AppIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19113A042E10C0F00046B9D1 /* AppIconView.swift */; };
+		19113A082E10C0F00046B9D1 /* ModernAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19113A052E10C0F00046B9D1 /* ModernAuthView.swift */; };
+		19113A092E10C0F00046B9D1 /* AppIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19113A042E10C0F00046B9D1 /* AppIconView.swift */; };
+		19113A0A2E10C0F00046B9D1 /* ModernAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19113A052E10C0F00046B9D1 /* ModernAuthView.swift */; };
+		19113A0B2E10C0F00046B9D1 /* AppIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19113A042E10C0F00046B9D1 /* AppIconView.swift */; };
+		19113A0F2E14C4DF0046B9D1 /* SecuritySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19113A0E2E14C4DF0046B9D1 /* SecuritySettingsView.swift */; };
+		19113A102E14C4DF0046B9D1 /* SecuritySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19113A0E2E14C4DF0046B9D1 /* SecuritySettingsView.swift */; };
+		19113A112E14C4DF0046B9D1 /* SecuritySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19113A0E2E14C4DF0046B9D1 /* SecuritySettingsView.swift */; };
 		1956E3662D1BB185003F6EFF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1956E3652D1BB185003F6EFF /* FirebaseAnalytics */; };
 		1956E3682D1BB393003F6EFF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1956E3672D1BB393003F6EFF /* FirebaseStorage */; };
 		1956E36A2D1BB878003F6EFF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1956E3692D1BB878003F6EFF /* FirebaseFirestore */; };
@@ -17,6 +26,7 @@
 		1968AE612D2244FD00B17682 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1968AE602D2244FD00B17682 /* LoginView.swift */; };
 		1968AE892D2B8CE800B17682 /* CustomImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1968AE882D2B8CE800B17682 /* CustomImagePicker.swift */; };
 		1968AE8B2D2B95D400B17682 /* ImageConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1968AE8A2D2B95D400B17682 /* ImageConfirmationView.swift */; };
+		1968AE8D2D2CF2C000B17682 /* MetricCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1968AE8C2D2CF2C000B17682 /* MetricCard.swift */; };
 		197B82092D1C89BB000FC681 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B82082D1C89B8000FC681 /* CameraView.swift */; };
 		197B820D2D1C89D6000FC681 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B820C2D1C89D3000FC681 /* DashboardView.swift */; };
 		197B82172D1CBDEE000FC681 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197B82162D1CBDEB000FC681 /* HistoryView.swift */; };
@@ -60,12 +70,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		19113A042E10C0F00046B9D1 /* AppIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconView.swift; sourceTree = "<group>"; };
+		19113A052E10C0F00046B9D1 /* ModernAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernAuthView.swift; sourceTree = "<group>"; };
+		19113A0E2E14C4DF0046B9D1 /* SecuritySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsView.swift; sourceTree = "<group>"; };
 		1968AE542D221E6400B17682 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		1968AE5B2D2244A300B17682 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		1968AE5E2D2244EE00B17682 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		1968AE602D2244FD00B17682 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		1968AE882D2B8CE800B17682 /* CustomImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImagePicker.swift; sourceTree = "<group>"; };
 		1968AE8A2D2B95D400B17682 /* ImageConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConfirmationView.swift; sourceTree = "<group>"; };
+		1968AE8C2D2CF2C000B17682 /* MetricCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCard.swift; sourceTree = "<group>"; };
 		197B82082D1C89B8000FC681 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		197B820C2D1C89D3000FC681 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		197B82162D1CBDEB000FC681 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
@@ -171,6 +185,7 @@
 		19CB81E92D1773AC00FB3F19 = {
 			isa = PBXGroup;
 			children = (
+				19113A0E2E14C4DF0046B9D1 /* SecuritySettingsView.swift */,
 				19CB81F42D1773AC00FB3F19 /* budgyfinance */,
 				19CB82082D1773AD00FB3F19 /* budgyfinanceTests */,
 				19CB82122D1773AD00FB3F19 /* budgyfinanceUITests */,
@@ -192,6 +207,9 @@
 		19CB81F42D1773AC00FB3F19 /* budgyfinance */ = {
 			isa = PBXGroup;
 			children = (
+				19113A042E10C0F00046B9D1 /* AppIconView.swift */,
+				19113A052E10C0F00046B9D1 /* ModernAuthView.swift */,
+				1968AE8C2D2CF2C000B17682 /* MetricCard.swift */,
 				1968AE6F2D22465300B17682 /* Models */,
 				1968AE6E2D22464700B17682 /* Services */,
 				1968AE6D2D22463800B17682 /* ViewModels */,
@@ -400,6 +418,7 @@
 				197B821F2D1CC35A000FC681 /* StatsView.swift in Sources */,
 				19DF928F2D1E571C004D9F7B /* ReceiptProcessor.swift in Sources */,
 				19DF929A2D1E6C81004D9F7B /* FirebaseTest.swift in Sources */,
+				1968AE8D2D2CF2C000B17682 /* MetricCard.swift in Sources */,
 				1968AE5F2D2244EE00B17682 /* RegistrationView.swift in Sources */,
 				19CB81F82D1773AC00FB3F19 /* BudgyFinanceApp.swift in Sources */,
 				197B82192D1CBE04000FC681 /* ProfileView.swift in Sources */,
@@ -417,6 +436,9 @@
 				19DF929E2D1E6E59004D9F7B /* ReceiptDetailView.swift in Sources */,
 				197B821B2D1CC05D000FC681 /* CaptureButtonView.swift in Sources */,
 				197B82092D1C89BB000FC681 /* CameraView.swift in Sources */,
+				19113A102E14C4DF0046B9D1 /* SecuritySettingsView.swift in Sources */,
+				19113A0A2E10C0F00046B9D1 /* ModernAuthView.swift in Sources */,
+				19113A0B2E10C0F00046B9D1 /* AppIconView.swift in Sources */,
 				1968AE5C2D2244A600B17682 /* MainTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -425,6 +447,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19113A062E10C0F00046B9D1 /* ModernAuthView.swift in Sources */,
+				19113A112E14C4DF0046B9D1 /* SecuritySettingsView.swift in Sources */,
+				19113A072E10C0F00046B9D1 /* AppIconView.swift in Sources */,
 				19CB820A2D1773AD00FB3F19 /* budgyfinanceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -434,6 +459,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				19CB82142D1773AD00FB3F19 /* budgyfinanceUITests.swift in Sources */,
+				19113A082E10C0F00046B9D1 /* ModernAuthView.swift in Sources */,
+				19113A092E10C0F00046B9D1 /* AppIconView.swift in Sources */,
+				19113A0F2E14C4DF0046B9D1 /* SecuritySettingsView.swift in Sources */,
 				19CB82162D1773AD00FB3F19 /* budgyfinanceUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
