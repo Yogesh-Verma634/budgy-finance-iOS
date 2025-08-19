@@ -487,30 +487,7 @@ struct PrivacyPolicyView: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    Text("Privacy Policy")
-                        .font(.title)
-                        .fontWeight(.bold)
-                    
-                    Text("Last updated: December 29, 2024")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    
-                    Group {
-                        Text("Information We Collect")
-                            .font(.headline)
-                        
-                        Text("We collect information you provide directly to us, such as when you create an account, upload receipts, or contact us for support.")
-                        
-                        Text("How We Use Your Information")
-                            .font(.headline)
-                        
-                        Text("We use the information we collect to provide, maintain, and improve our services, process transactions, and communicate with you.")
-                        
-                        Text("Data Security")
-                            .font(.headline)
-                        
-                        Text("We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.")
-                    }
+                    privacyPolicyContent
                 }
                 .padding()
             }
@@ -525,6 +502,57 @@ struct PrivacyPolicyView: View {
             }
         }
     }
+    
+    private var privacyPolicyContent: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Privacy Policy for BudgyFinance")
+                .font(.title2)
+                .fontWeight(.bold)
+            
+            Text("Last updated: January 17, 2025")
+                .font(.caption)
+                .foregroundColor(.secondary)
+            
+            Group {
+                LegalSectionView(title: "Introduction") {
+                    Text("BudgyFinance is committed to protecting your privacy. This policy explains how we collect, use, and safeguard your information.")
+                }
+                
+                LegalSectionView(title: "Information We Collect") {
+                    Text("**Personal Information:**")
+                        .fontWeight(.semibold)
+                    Text("• Account details (email, name)\n• Receipt images and extracted data\n• Budget and spending preferences")
+                    
+                    Text("**Automatically Collected:**")
+                        .fontWeight(.semibold)
+                        .padding(.top, 8)
+                    Text("• Device information and usage data\n• Error logs and performance metrics")
+                }
+                
+                LegalSectionView(title: "How We Use Your Information") {
+                    Text("• Process receipts using AI technology\n• Track spending and budget progress\n• Sync data across your devices\n• Provide customer support")
+                }
+                
+                LegalSectionView(title: "Third-Party Services") {
+                    Text("We use:")
+                    Text("• **Firebase**: Secure data storage\n• **OpenAI**: Receipt text extraction\n• **Apple Services**: App Store integration")
+                }
+                
+                LegalSectionView(title: "Data Security") {
+                    Text("• All data encrypted during transmission\n• Enterprise-grade Firebase security\n• Limited access controls\n• Regular security updates")
+                }
+                
+                LegalSectionView(title: "Your Rights") {
+                    Text("• View and update your information\n• Delete your account and data\n• Export your data\n• Contact us with questions")
+                }
+                
+                LegalSectionView(title: "Contact") {
+                    Text("Questions? Email: support@budgyfinance.com")
+                        .foregroundColor(.blue)
+                }
+            }
+        }
+    }
 }
 
 // MARK: - Terms of Service View
@@ -535,30 +563,7 @@ struct TermsOfServiceView: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    Text("Terms of Service")
-                        .font(.title)
-                        .fontWeight(.bold)
-                    
-                    Text("Last updated: December 29, 2024")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    
-                    Group {
-                        Text("Acceptance of Terms")
-                            .font(.headline)
-                        
-                        Text("By accessing and using BudgyFinance, you accept and agree to be bound by the terms and provision of this agreement.")
-                        
-                        Text("Use License")
-                            .font(.headline)
-                        
-                        Text("Permission is granted to temporarily download one copy of the app for personal, non-commercial transitory viewing only.")
-                        
-                        Text("Disclaimer")
-                            .font(.headline)
-                        
-                        Text("The materials on BudgyFinance are provided on an 'as is' basis. BudgyFinance makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.")
-                    }
+                    termsContent
                 }
                 .padding()
             }
@@ -572,6 +577,96 @@ struct TermsOfServiceView: View {
                 }
             }
         }
+    }
+    
+    private var termsContent: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Terms of Service for BudgyFinance")
+                .font(.title2)
+                .fontWeight(.bold)
+            
+            Text("Last updated: January 17, 2025")
+                .font(.caption)
+                .foregroundColor(.secondary)
+            
+            Group {
+                LegalSectionView(title: "Acceptance of Terms") {
+                    Text("By using BudgyFinance, you agree to these Terms of Service. If you disagree, please do not use the app.")
+                }
+                
+                LegalSectionView(title: "Description of Service") {
+                    Text("BudgyFinance helps you:")
+                    Text("• Track expenses by scanning receipts\n• Set and monitor budget goals\n• Categorize spending and analyze habits\n• Sync data across your devices")
+                }
+                
+                LegalSectionView(title: "Eligibility") {
+                    Text("• Must be at least 13 years old\n• Users under 18 need parental consent\n• Must provide accurate account information\n• Responsible for account security")
+                }
+                
+                LegalSectionView(title: "Acceptable Use") {
+                    Text("**Allowed:**")
+                        .fontWeight(.semibold)
+                    Text("• Personal expense tracking\n• Processing your own receipts\n• Managing personal financial data")
+                    
+                    Text("**Prohibited:**")
+                        .fontWeight(.semibold)
+                        .foregroundColor(.red)
+                        .padding(.top, 8)
+                    Text("• Processing others' receipts without permission\n• Commercial use without authorization\n• Reverse engineering the app\n• Sharing account credentials")
+                        .foregroundColor(.red)
+                }
+                
+                LegalSectionView(title: "Financial Disclaimer") {
+                    Text("⚠️ **Important Notice**")
+                        .fontWeight(.semibold)
+                        .foregroundColor(.orange)
+                    Text("• Not financial advice or professional service\n• Processing may not be 100% accurate\n• Verify all extracted data\n• Consult professionals for financial planning")
+                        .foregroundColor(.orange)
+                }
+                
+                LegalSectionView(title: "Limitation of Liability") {
+                    Text("Service provided \"AS IS\" without warranties. We are not liable for financial losses or indirect damages.")
+                }
+                
+                LegalSectionView(title: "Contact") {
+                    Text("Questions? Email: support@budgyfinance.com")
+                        .foregroundColor(.blue)
+                }
+            }
+            
+            Divider()
+                .padding(.vertical)
+            
+            Text("By using BudgyFinance, you agree to these Terms of Service.")
+                .font(.footnote)
+                .foregroundColor(.secondary)
+                .italic()
+        }
+    }
+}
+
+// MARK: - Legal Section Component
+struct LegalSectionView<Content: View>: View {
+    let title: String
+    let content: Content
+    
+    init(title: String, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.content = content()
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(.headline)
+                .fontWeight(.semibold)
+                .foregroundColor(.primary)
+            
+            content
+                .font(.body)
+                .foregroundColor(.secondary)
+        }
+        .padding(.vertical, 4)
     }
 }
 

@@ -7,14 +7,16 @@ struct CaptureButtonView: View {
     @State private var sourceType: CameraView.SourceType = .camera
     @State private var receiptData: Receipt?
     @State private var isProcessing = false
-    @State private var selectedImage: UIImage?
+    @StateObject private var imageCaptureManager = ImageCaptureManager()
+    @State private var selectedImage: UIImage? // Keep for compatibility with pickers
     @State private var showEditReceipt = false
     @State private var showSuccessAlert = false
     @State private var showErrorAlert = false
-    @State private var errorMessage = ""
+    @State private var currentError: AppError?
     @State private var processingMessage = "Processing receipt..."
     @State private var showProcessingSteps = false
     @State private var currentStep = 0
+
     
     let processingSteps = [
         "Analyzing receipt image...",
@@ -202,6 +204,58 @@ struct CaptureButtonView: View {
                     })
                 }
             }
+            .fullScreenCover(isPresented: $imageCaptureManager.showImageConfirmation) {
+                Group {
+                    let _ = print("🖼️ FullScreenCover is being rendered...")
+                    let _ = print("🖼️ Manager selectedImage status: \(imageCaptureManager.selectedImage != nil ? "NOT NIL (\(imageCaptureManager.selectedImage!.size))" : "NIL")")
+                    
+                    if let image = imageCaptureManager.selectedImage {
+                        let _ = print("🖼️ FullScreenCover: Using manager image with size: \(image.size)")
+                        ImageConfirmationView(
+                            selectedImage: image,
+                            onConfirm: {
+                                print("✅ User confirmed image processing")
+                                imageCaptureManager.hideConfirmation()
+                                processImage()
+                            },
+                            onCancel: {
+                                print("❌ User cancelled image - going back to gallery")
+                                imageCaptureManager.clearImage()
+                                selectedImage = nil
+                                showImagePicker = true
+                            },
+                            onRetake: {
+                                print("📸 User wants to retake photo")
+                                imageCaptureManager.clearImage()
+                                selectedImage = nil
+                                sourceType = .camera
+                                showImagePicker = true
+                            }
+                        )
+                    } else {
+                        let _ = print("🚨 FullScreenCover: Manager selectedImage is nil!")
+                        VStack {
+                            Text("No image available")
+                                .foregroundColor(.white)
+                                .font(.headline)
+                            
+                            Text("Manager image is nil")
+                                .foregroundColor(.yellow)
+                                .font(.caption)
+                            
+                            Button("Close") {
+                                imageCaptureManager.hideConfirmation()
+                            }
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.red.opacity(0.8))
+                    }
+                }
+            }
             .alert("Receipt Saved!", isPresented: $showSuccessAlert) {
                 Button("OK") {
                     showSuccessAlert = false
@@ -209,23 +263,28 @@ struct CaptureButtonView: View {
             } message: {
                 Text("Your receipt has been successfully processed and saved to your account.")
             }
-            .alert("Processing Failed", isPresented: $showErrorAlert) {
-                Button("Try Again") {
-                    showErrorAlert = false
-                    // Reset processing state
-                    isProcessing = false
-                    showProcessingSteps = false
-                    selectedImage = nil
-                }
-                Button("Cancel", role: .cancel) {
-                    showErrorAlert = false
-                    isProcessing = false
-                    showProcessingSteps = false
-                    selectedImage = nil
+            .alert("Error", isPresented: $showErrorAlert) {
+                if let error = currentError, error.isRetryable {
+                    Button("Try Again") {
+                        showErrorAlert = false
+                        if selectedImage != nil {
+                            processImage()
+                        }
+                    }
+                    Button("Cancel", role: .cancel) {
+                        showErrorAlert = false
+                        resetProcessingState()
+                    }
+                } else {
+                    Button("OK") {
+                        showErrorAlert = false
+                        resetProcessingState()
+                    }
                 }
             } message: {
-                Text(errorMessage)
+                Text(currentError?.localizedDescription ?? "An unexpected error occurred.")
             }
+
         }
     }
 
@@ -234,27 +293,33 @@ struct CaptureButtonView: View {
             print("Presenting CustomImagePicker")
             return AnyView(CustomImagePicker(selectedImage: $selectedImage)
                 .onDisappear {
-                    print("Image picker dismissed")
-                    if selectedImage != nil {
-                        print("Image selected, starting processing")
-                        processSelectedImage()
+                    print("📷 Image picker dismissed")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        if let image = selectedImage {
+                            print("📷 Image selected from gallery, size: \(image.size)")
+                            imageCaptureManager.setImage(image)
+                        } else {
+                            print("📷 No image was selected from gallery")
+                        }
                     }
                 })
         } else {
             print("Presenting CameraView")
             return AnyView(CameraView(sourceType: $sourceType, selectedImage: $selectedImage)
                 .onDisappear {
-                    print("CameraView dismissed")
-                    if selectedImage != nil {
-                        print("Image selected, starting processing")
-                        processSelectedImage()
+                    print("📸 CameraView dismissed")
+                    if let image = selectedImage {
+                        print("📸 Image captured from camera, size: \(image.size)")
+                        imageCaptureManager.setImage(image)
+                    } else {
+                        print("📸 No image was captured from camera")
                     }
                 })
         }
     }
 
-    private func processSelectedImage() {
-        guard let image = selectedImage else {
+    private func processImage() {
+        guard let image = imageCaptureManager.selectedImage else {
             print("No image selected")
             return
         }
@@ -273,31 +338,63 @@ struct CaptureButtonView: View {
         
         guard let userId = Auth.auth().currentUser?.uid else {
             print("User is not logged in. Cannot process receipt.")
+            currentError = .authenticationFailed
+            showErrorAlert = true
             isProcessing = false
+            showProcessingSteps = false
             return
         }
 
         // Simulate processing steps
         simulateProcessingSteps()
         
-        ReceiptProcessor.processImage(imageData, forUser: userId) { receiptData in
+        BackendReceiptProcessor.processImage(imageData, forUser: userId) { result in
             DispatchQueue.main.async {
                 isProcessing = false
                 showProcessingSteps = false
-                if var receipt = receiptData {
-                    receipt.scannedTime = Date()
+                
+                switch result {
+                case .success(let receipt):
                     self.receiptData = receipt
                     print("Receipt processed successfully!")
                     // Show edit receipt overlay immediately
                     self.showEditReceipt = true
-                } else {
-                    print("Failed to process receipt.")
-                    // Show error alert
+                    
+                case .failure(let error):
+                    print("Failed to process receipt: \(error.localizedDescription)")
+                    
+                    // Handle specific backend errors
+                    switch error {
+                    case .apiQuotaExceeded:
+                        // TODO: Show subscription/upgrade prompt
+                        print("💰 User quota exceeded - show upgrade prompt")
+                    case .authenticationFailed:
+                        // TODO: Re-authenticate user
+                        print("🔐 Authentication failed - redirect to login")
+                    case .noInternetConnection:
+                        print("📡 No internet connection")
+                    case .serverError(let message):
+                        print("🏥 Server error: \(message)")
+                    default:
+                        print("❌ General error: \(error.localizedDescription)")
+                    }
+                    
+                    self.currentError = error
                     self.showErrorAlert = true
-                    self.errorMessage = "Failed to process receipt. Please try again later."
                 }
             }
         }
+    }
+    
+    private func resetProcessingState() {
+        print("🔄 resetProcessingState() called - clearing all images!")
+        print("🔄 Call stack: \(Thread.callStackSymbols.prefix(3))")
+        isProcessing = false
+        showProcessingSteps = false
+        imageCaptureManager.clearImage()
+        selectedImage = nil
+        currentStep = 0
+        processingMessage = "Processing receipt..."
     }
     
     private func simulateProcessingSteps() {

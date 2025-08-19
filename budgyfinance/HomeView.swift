@@ -14,6 +14,8 @@ struct HomeView: View {
     @State private var showBudgetSheet = false
     @State private var isLoading = true
     @State private var categorySpending: [String: Double] = [:]
+    @State private var showErrorAlert = false
+    @State private var currentError: AppError?
     
     // Sort receipts by date for display
     private var sortedReceipts: [Receipt] {
@@ -56,6 +58,14 @@ struct HomeView: View {
             })
             .sheet(isPresented: $showBudgetSheet) {
                 BudgetSettingView()
+            }
+            .alert("Error", isPresented: $showErrorAlert) {
+                Button("Retry") {
+                    fetchData()
+                }
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(currentError?.localizedDescription ?? "Failed to load data. Please try again.")
             }
             .refreshable {
                 fetchData()
@@ -107,6 +117,13 @@ struct HomeView: View {
                     self.receipts = []
                     self.categorySpending = [:]
                     self.budgetManager.currentMonthSpent = 0
+                    
+                    // Show error to user if it's not a network connectivity issue
+                    if let firestoreError = error as? NSError, 
+                       !firestoreError.localizedDescription.contains("network") {
+                        self.currentError = .dataNotFound
+                        self.showErrorAlert = true
+                    }
                 }
                 self.isLoading = false
             }

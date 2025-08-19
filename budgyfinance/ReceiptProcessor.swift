@@ -1,25 +1,60 @@
 import Vision
 import FirebaseFirestore
+import Network
 
 class ReceiptProcessor {
-    static func processImage(_ imageData: Data, forUser userId: String, completion: @escaping (Receipt?) -> Void) {
+    static let shared = ReceiptProcessor()
+    private let networkMonitor = NWPathMonitor()
+    private let monitorQueue = DispatchQueue(label: "NetworkMonitor")
+    private var isNetworkAvailable = true
+    
+    private init() {
+        startNetworkMonitoring()
+    }
+    
+    private func startNetworkMonitoring() {
+        networkMonitor.pathUpdateHandler = { path in
+            self.isNetworkAvailable = path.status == .satisfied
+        }
+        networkMonitor.start(queue: monitorQueue)
+    }
+    static func processImage(_ imageData: Data, forUser userId: String, completion: @escaping (Result<Receipt, AppError>) -> Void) {
+        // Check network connectivity
+        guard shared.isNetworkAvailable else {
+            completion(.failure(.noInternetConnection))
+            return
+        }
+        
         guard let image = UIImage(data: imageData), let cgImage = image.cgImage else {
             print("Failed to convert image data to CGImage.")
-            completion(nil)
+            completion(.failure(.imageProcessingFailed))
             return
         }
 
         // Step 1: Perform OCR using Vision
         let request = VNRecognizeTextRequest { request, error in
-            guard let observations = request.results as? [VNRecognizedTextObservation], error == nil else {
-                print("OCR Error: \(error?.localizedDescription ?? "Unknown error")")
-                completion(nil)
+            if let error = error {
+                print("OCR Error: \(error.localizedDescription)")
+                completion(.failure(.ocrFailed))
+                return
+            }
+            
+            guard let observations = request.results as? [VNRecognizedTextObservation] else {
+                print("No OCR observations found")
+                completion(.failure(.ocrFailed))
                 return
             }
 
             // Combine recognized text
             let extractedText = observations.compactMap { $0.topCandidates(1).first?.string }.joined(separator: "\n")
             print("Extracted Text: \(extractedText)")
+            
+            // Check if we extracted meaningful text
+            guard !extractedText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                print("No text extracted from image")
+                completion(.failure(.ocrFailed))
+                return
+            }
 
             // Step 2: Send extracted text to GPT with retry mechanism
             sendToGPTWithRetry(extractedText, forUser: userId, maxRetries: 3, completion: completion)
@@ -30,37 +65,49 @@ class ReceiptProcessor {
             try handler.perform([request])
         } catch {
             print("Vision OCR Error: \(error.localizedDescription)")
-            completion(nil)
+            completion(.failure(.ocrFailed))
         }
     }
     
-    private static func sendToGPTWithRetry(_ extractedText: String, forUser userId: String, maxRetries: Int, completion: @escaping (Receipt?) -> Void) {
+    private static func sendToGPTWithRetry(_ extractedText: String, forUser userId: String, maxRetries: Int, completion: @escaping (Result<Receipt, AppError>) -> Void) {
         print("Processing receipt (attempt \(4 - maxRetries)/3)...")
         
-        sendToGPT(extractedText, forUser: userId) { receipt in
-            if let receipt = receipt {
-                completion(receipt)
-            } else if maxRetries > 1 {
-                print("⚠️ Processing failed, retrying... (attempts remaining: \(maxRetries - 1))")
-                // Wait a moment before retrying
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    sendToGPTWithRetry(extractedText, forUser: userId, maxRetries: maxRetries - 1, completion: completion)
+        sendToGPT(extractedText, forUser: userId) { result in
+            switch result {
+            case .success(let receipt):
+                completion(.success(receipt))
+            case .failure(let error):
+                if maxRetries > 1 && error.isRetryable {
+                    print("⚠️ Processing failed, retrying... (attempts remaining: \(maxRetries - 1))")
+                    // Wait a moment before retrying
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        sendToGPTWithRetry(extractedText, forUser: userId, maxRetries: maxRetries - 1, completion: completion)
+                    }
+                } else {
+                    print("❌ All processing attempts failed")
+                    completion(.failure(error))
                 }
-            } else {
-                print("❌ All processing attempts failed")
-                completion(nil)
             }
         }
     }
 
-    private static func sendToGPT(_ extractedText: String, forUser userId: String, completion: @escaping (Receipt?) -> Void) {
-        // TODO: Replace this with your actual OpenAI API key
-        // IMPORTANT: Never commit your real API key to version control!
+    private static func sendToGPT(_ extractedText: String, forUser userId: String, completion: @escaping (Result<Receipt, AppError>) -> Void) {
+        // CRITICAL: API Key must be configured securely
+        // DO NOT hardcode API keys in source code!
         
-        // For development, you can temporarily uncomment and set your key here:
-        // let apiKey = "sk-proj-your-actual-key-here"
+        // Option 1: Environment variable (recommended for development)
+        guard let apiKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"] else {
+            print("❌ OPENAI_API_KEY environment variable not set")
+            completion(.failure(.invalidAPIKey))
+            return
+        }
         
-        // For production, use environment variables or secure key management
+        // Validate API key format
+        guard apiKey.hasPrefix("sk-") && apiKey.count > 20 else {
+            print("❌ Invalid OPENAI_API_KEY format")
+            completion(.failure(.invalidAPIKey))
+            return
+        }
         
         let url = URL(string: "https://api.openai.com/v1/chat/completions")!
         var request = URLRequest(url: url)
@@ -116,7 +163,7 @@ class ReceiptProcessor {
             request.httpBody = jsonData
         } catch {
             print("Failed to serialize payload: \(error.localizedDescription)")
-            completion(nil)
+            completion(.failure(.apiError("Failed to create request")))
             return
         }
 
@@ -124,13 +171,37 @@ class ReceiptProcessor {
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("API Request Error: \(error.localizedDescription)")
-                completion(nil)
+                if error.localizedDescription.contains("timed out") {
+                    completion(.failure(.requestTimeout))
+                } else {
+                    completion(.failure(.apiError(error.localizedDescription)))
+                }
                 return
+            }
+            
+            // Check HTTP response status
+            if let httpResponse = response as? HTTPURLResponse {
+                switch httpResponse.statusCode {
+                case 401:
+                    completion(.failure(.invalidAPIKey))
+                    return
+                case 429:
+                    completion(.failure(.apiQuotaExceeded))
+                    return
+                case 500...599:
+                    completion(.failure(.serverError("Server error (status: \(httpResponse.statusCode))")))
+                    return
+                case 200...299:
+                    break // Success, continue processing
+                default:
+                    completion(.failure(.apiError("HTTP error (status: \(httpResponse.statusCode))")))
+                    return
+                }
             }
 
             guard let data = data else {
                 print("No response data received")
-                completion(nil)
+                completion(.failure(.apiError("No response data received")))
                 return
             }
 
@@ -174,40 +245,40 @@ class ReceiptProcessor {
                                     FirestoreManager.shared.addReceipt(receipt, forUser: userId) { error in
                                         if let error = error {
                                             print("Error saving receipt via FirestoreManager: \(error.localizedDescription)")
-                                            completion(nil)
+                                            completion(.failure(.firestoreError(error.localizedDescription)))
                                         } else {
                                             print("Receipt saved successfully via FirestoreManager!")
-                                            completion(receipt)
+                                            completion(.success(receipt))
                                         }
                                     }
                                 } else {
                                     print("❌ Failed to parse OpenAI response into Receipt.")
                                     print("Raw content that failed to parse: \(content)")
-                                    completion(nil)
+                                    completion(.failure(.receiptParsingFailed))
                                 }
                             } else {
                                 print("❌ Could not extract content from message")
                                 print("Message structure: \(message)")
-                                completion(nil)
+                                completion(.failure(.receiptParsingFailed))
                             }
                         } else {
                             print("❌ Could not find message in first choice")
                             print("First choice structure: \(choices.first ?? [:])")
-                            completion(nil)
+                            completion(.failure(.receiptParsingFailed))
                         }
                     } else {
                         print("❌ Could not find choices in response")
                         print("Response structure: \(responseJSON)")
-                        completion(nil)
+                        completion(.failure(.receiptParsingFailed))
                     }
                 } else {
                     print("❌ Invalid JSON structure from OpenAI response.")
-                    completion(nil)
+                    completion(.failure(.receiptParsingFailed))
                 }
             } catch {
                 print("❌ Error parsing OpenAI response JSON: \(error.localizedDescription)")
                 print("Error details: \(error)")
-                completion(nil)
+                completion(.failure(.apiError("Failed to parse API response")))
             }
         }.resume()
     }

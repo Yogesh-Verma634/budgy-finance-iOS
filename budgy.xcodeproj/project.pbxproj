@@ -16,6 +16,21 @@
 		19113A0F2E14C4DF0046B9D1 /* SecuritySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19113A0E2E14C4DF0046B9D1 /* SecuritySettingsView.swift */; };
 		19113A102E14C4DF0046B9D1 /* SecuritySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19113A0E2E14C4DF0046B9D1 /* SecuritySettingsView.swift */; };
 		19113A112E14C4DF0046B9D1 /* SecuritySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19113A0E2E14C4DF0046B9D1 /* SecuritySettingsView.swift */; };
+		191EE5812E54074E0046BC4D /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE57F2E54074E0046BC4D /* AppError.swift */; };
+		191EE5822E54074E0046BC4D /* LoadingStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE5802E54074E0046BC4D /* LoadingStateManager.swift */; };
+		191EE5832E54074E0046BC4D /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE57F2E54074E0046BC4D /* AppError.swift */; };
+		191EE5842E54074E0046BC4D /* LoadingStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE5802E54074E0046BC4D /* LoadingStateManager.swift */; };
+		191EE5852E54074E0046BC4D /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE57F2E54074E0046BC4D /* AppError.swift */; };
+		191EE5862E54074E0046BC4D /* LoadingStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE5802E54074E0046BC4D /* LoadingStateManager.swift */; };
+		191EE5882E540B5A0046BC4D /* ImageCaptureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE5872E540B5A0046BC4D /* ImageCaptureManager.swift */; };
+		191EE5892E540B5A0046BC4D /* ImageCaptureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE5872E540B5A0046BC4D /* ImageCaptureManager.swift */; };
+		191EE58A2E540B5A0046BC4D /* ImageCaptureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE5872E540B5A0046BC4D /* ImageCaptureManager.swift */; };
+		191EE58C2E542EA70046BC4D /* BackendReceiptProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE58B2E542EA70046BC4D /* BackendReceiptProcessor.swift */; };
+		191EE58D2E542EA70046BC4D /* BackendReceiptProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE58B2E542EA70046BC4D /* BackendReceiptProcessor.swift */; };
+		191EE58E2E542EA70046BC4D /* BackendReceiptProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE58B2E542EA70046BC4D /* BackendReceiptProcessor.swift */; };
+		191EE5902E542EBF0046BC4D /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE58F2E542EBF0046BC4D /* AppConfig.swift */; };
+		191EE5912E542EBF0046BC4D /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE58F2E542EBF0046BC4D /* AppConfig.swift */; };
+		191EE5922E542EBF0046BC4D /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE58F2E542EBF0046BC4D /* AppConfig.swift */; };
 		1956E3662D1BB185003F6EFF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1956E3652D1BB185003F6EFF /* FirebaseAnalytics */; };
 		1956E3682D1BB393003F6EFF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1956E3672D1BB393003F6EFF /* FirebaseStorage */; };
 		1956E36A2D1BB878003F6EFF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1956E3692D1BB878003F6EFF /* FirebaseFirestore */; };
@@ -73,6 +88,11 @@
 		19113A042E10C0F00046B9D1 /* AppIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconView.swift; sourceTree = "<group>"; };
 		19113A052E10C0F00046B9D1 /* ModernAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernAuthView.swift; sourceTree = "<group>"; };
 		19113A0E2E14C4DF0046B9D1 /* SecuritySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsView.swift; sourceTree = "<group>"; };
+		191EE57F2E54074E0046BC4D /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		191EE5802E54074E0046BC4D /* LoadingStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateManager.swift; sourceTree = "<group>"; };
+		191EE5872E540B5A0046BC4D /* ImageCaptureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCaptureManager.swift; sourceTree = "<group>"; };
+		191EE58B2E542EA70046BC4D /* BackendReceiptProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendReceiptProcessor.swift; sourceTree = "<group>"; };
+		191EE58F2E542EBF0046BC4D /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		1968AE542D221E6400B17682 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		1968AE5B2D2244A300B17682 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		1968AE5E2D2244EE00B17682 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
@@ -226,6 +246,11 @@
 				197B821E2D1CC356000FC681 /* StatsView.swift */,
 				197B821C2D1CC331000FC681 /* HomeView.swift */,
 				197B821A2D1CC059000FC681 /* CaptureButtonView.swift */,
+				191EE58F2E542EBF0046BC4D /* AppConfig.swift */,
+				191EE58B2E542EA70046BC4D /* BackendReceiptProcessor.swift */,
+				191EE5872E540B5A0046BC4D /* ImageCaptureManager.swift */,
+				191EE57F2E54074E0046BC4D /* AppError.swift */,
+				191EE5802E54074E0046BC4D /* LoadingStateManager.swift */,
 				197B82182D1CBE00000FC681 /* ProfileView.swift */,
 				197B82162D1CBDEB000FC681 /* HistoryView.swift */,
 				197B820C2D1C89D3000FC681 /* DashboardView.swift */,
@@ -420,8 +445,10 @@
 				19DF929A2D1E6C81004D9F7B /* FirebaseTest.swift in Sources */,
 				1968AE8D2D2CF2C000B17682 /* MetricCard.swift in Sources */,
 				1968AE5F2D2244EE00B17682 /* RegistrationView.swift in Sources */,
+				191EE5912E542EBF0046BC4D /* AppConfig.swift in Sources */,
 				19CB81F82D1773AC00FB3F19 /* BudgyFinanceApp.swift in Sources */,
 				197B82192D1CBE04000FC681 /* ProfileView.swift in Sources */,
+				191EE5892E540B5A0046BC4D /* ImageCaptureManager.swift in Sources */,
 				1968AE582D221E6400B17682 /* LogoView.swift in Sources */,
 				1968AE612D2244FD00B17682 /* LoginView.swift in Sources */,
 				19DF92A52D1E7852004D9F7B /* FirestoreRetryHelper.swift in Sources */,
@@ -431,11 +458,14 @@
 				197B82172D1CBDEE000FC681 /* HistoryView.swift in Sources */,
 				19DF929C2D1E6DD8004D9F7B /* EditReceiptView.swift in Sources */,
 				197B821D2D1CC333000FC681 /* HomeView.swift in Sources */,
+				191EE5852E54074E0046BC4D /* AppError.swift in Sources */,
+				191EE5862E54074E0046BC4D /* LoadingStateManager.swift in Sources */,
 				197B820D2D1C89D6000FC681 /* DashboardView.swift in Sources */,
 				19DF92962D1E614D004D9F7B /* FirestoreManager.swift in Sources */,
 				19DF929E2D1E6E59004D9F7B /* ReceiptDetailView.swift in Sources */,
 				197B821B2D1CC05D000FC681 /* CaptureButtonView.swift in Sources */,
 				197B82092D1C89BB000FC681 /* CameraView.swift in Sources */,
+				191EE58C2E542EA70046BC4D /* BackendReceiptProcessor.swift in Sources */,
 				19113A102E14C4DF0046B9D1 /* SecuritySettingsView.swift in Sources */,
 				19113A0A2E10C0F00046B9D1 /* ModernAuthView.swift in Sources */,
 				19113A0B2E10C0F00046B9D1 /* AppIconView.swift in Sources */,
@@ -447,9 +477,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				191EE5902E542EBF0046BC4D /* AppConfig.swift in Sources */,
 				19113A062E10C0F00046B9D1 /* ModernAuthView.swift in Sources */,
+				191EE5832E54074E0046BC4D /* AppError.swift in Sources */,
+				191EE5842E54074E0046BC4D /* LoadingStateManager.swift in Sources */,
 				19113A112E14C4DF0046B9D1 /* SecuritySettingsView.swift in Sources */,
+				191EE58D2E542EA70046BC4D /* BackendReceiptProcessor.swift in Sources */,
 				19113A072E10C0F00046B9D1 /* AppIconView.swift in Sources */,
+				191EE58A2E540B5A0046BC4D /* ImageCaptureManager.swift in Sources */,
 				19CB820A2D1773AD00FB3F19 /* budgyfinanceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -459,9 +494,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				19CB82142D1773AD00FB3F19 /* budgyfinanceUITests.swift in Sources */,
+				191EE5922E542EBF0046BC4D /* AppConfig.swift in Sources */,
 				19113A082E10C0F00046B9D1 /* ModernAuthView.swift in Sources */,
+				191EE58E2E542EA70046BC4D /* BackendReceiptProcessor.swift in Sources */,
+				191EE5812E54074E0046BC4D /* AppError.swift in Sources */,
+				191EE5822E54074E0046BC4D /* LoadingStateManager.swift in Sources */,
 				19113A092E10C0F00046B9D1 /* AppIconView.swift in Sources */,
 				19113A0F2E14C4DF0046B9D1 /* SecuritySettingsView.swift in Sources */,
+				191EE5882E540B5A0046BC4D /* ImageCaptureManager.swift in Sources */,
 				19CB82162D1773AD00FB3F19 /* budgyfinanceUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
