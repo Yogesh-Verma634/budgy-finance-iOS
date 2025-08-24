@@ -2,7 +2,12 @@ import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
 
+// Import GlassmorphismBackground from HomeView
+
+// MARK: - Glassmorphism Background (using from HomeView.swift)
+
 struct CaptureButtonView: View {
+    @EnvironmentObject var firestoreManager: FirestoreManager
     @State private var showImagePicker = false
     @State private var sourceType: CameraView.SourceType = .camera
     @State private var receiptData: Receipt?
@@ -28,162 +33,44 @@ struct CaptureButtonView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // Background gradient
-                LinearGradient(
-                    gradient: Gradient(colors: [Color.blue.opacity(0.1), Color.purple.opacity(0.1)]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
+                // Animated gradient background
+                GlassmorphismBackground()
                 
                 ScrollView {
-                    VStack(spacing: 30) {
+                    VStack(spacing: 20) {
                         // Header Section
-                        VStack(spacing: 16) {
-                            Image(systemName: "camera.viewfinder")
-                                .font(.system(size: 60))
-                                .foregroundColor(.blue)
-                            
-                            Text("Scan Receipts")
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                            
-                            Text("Capture or upload receipts to automatically extract and categorize your expenses")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                                .multilineTextAlignment(.center)
-                                .padding(.horizontal)
-                        }
-                        .padding(.top, 20)
+                        GlassmorphicCaptureHeader()
                         
                         // Action Buttons
-                        VStack(spacing: 16) {
-                            // Camera Button
-                            Button(action: {
+                        GlassmorphicActionButtons(
+                            onCameraTap: {
                                 sourceType = .camera
                                 showImagePicker = true
-                            }) {
-                                HStack(spacing: 12) {
-                                    Image(systemName: "camera.fill")
-                                        .font(.title2)
-                                    Text("Take Photo")
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                }
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 16)
-                                .background(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [Color.blue, Color.blue.opacity(0.8)]),
-                                        startPoint: .leading,
-                                        endPoint: .trailing
-                                    )
-                                )
-                                .cornerRadius(16)
-                                .shadow(color: .blue.opacity(0.3), radius: 8, x: 0, y: 4)
-                            }
-                            
-                            // Gallery Button
-                            Button(action: {
+                            },
+                            onGalleryTap: {
                                 sourceType = .photoLibrary
                                 showImagePicker = true
-                            }) {
-                                HStack(spacing: 12) {
-                                    Image(systemName: "photo.on.rectangle")
-                                        .font(.title2)
-                                    Text("Choose from Gallery")
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                }
-                                .foregroundColor(.blue)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 16)
-                                .background(Color.white)
-                                .cornerRadius(16)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .stroke(Color.blue, lineWidth: 2)
-                                )
-                                .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
                             }
-                        }
-                        .padding(.horizontal, 24)
+                        )
                         
                         // Processing Section
                         if isProcessing {
-                            VStack(spacing: 20) {
-                                // Processing Animation
-                                ZStack {
-                                    Circle()
-                                        .stroke(Color.blue.opacity(0.2), lineWidth: 8)
-                                        .frame(width: 80, height: 80)
-                                    
-                                    Circle()
-                                        .trim(from: 0, to: 0.7)
-                                        .stroke(Color.blue, style: StrokeStyle(lineWidth: 8, lineCap: .round))
-                                        .frame(width: 80, height: 80)
-                                        .rotationEffect(.degrees(-90))
-                                        .animation(.linear(duration: 1).repeatForever(autoreverses: false), value: isProcessing)
-                                    
-                                    Image(systemName: "doc.text.viewfinder")
-                                        .font(.title)
-                                        .foregroundColor(.blue)
-                                }
-                                
-                                VStack(spacing: 8) {
-                                    Text(processingMessage)
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                    
-                                    if showProcessingSteps {
-                                        VStack(spacing: 4) {
-                                            ForEach(0..<processingSteps.count, id: \.self) { index in
-                                                HStack {
-                                                    Image(systemName: index <= currentStep ? "checkmark.circle.fill" : "circle")
-                                                        .foregroundColor(index <= currentStep ? .green : .gray)
-                                                        .font(.caption)
-                                                    
-                                                    Text(processingSteps[index])
-                                                        .font(.caption)
-                                                        .foregroundColor(index <= currentStep ? .primary : .secondary)
-                                                    
-                                                    Spacer()
-                                                }
-                                            }
-                                        }
-                                        .padding(.top, 8)
-                                    }
-                                }
-                            }
-                            .padding()
-                            .background(Color(.systemBackground))
-                            .cornerRadius(20)
-                            .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
-                            .padding(.horizontal, 24)
+                            GlassmorphicProcessingView(
+                                processingMessage: processingMessage,
+                                showProcessingSteps: showProcessingSteps,
+                                processingSteps: processingSteps,
+                                currentStep: currentStep
+                            )
                         }
                         
                         // Tips Section
-                        VStack(spacing: 16) {
-                            Text("Tips for Best Results")
-                                .font(.headline)
-                                .fontWeight(.semibold)
-                            
-                            VStack(spacing: 12) {
-                                TipRow(icon: "light.max", text: "Ensure good lighting for clear images")
-                                TipRow(icon: "rectangle.3.group", text: "Include the entire receipt in the frame")
-                                TipRow(icon: "textformat", text: "Make sure text is readable and not blurry")
-                                TipRow(icon: "checkmark.shield", text: "Verify extracted data before saving")
-                            }
-                        }
-                        .padding()
-                        .background(Color(.systemBackground))
-                        .cornerRadius(20)
-                        .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
-                        .padding(.horizontal, 24)
+                        GlassmorphicTipsSection()
                         
-                        Spacer(minLength: 50)
+                        Spacer(minLength: 30)
                     }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
+                    .padding(.bottom, 20)
                 }
             }
             .sheet(isPresented: $showImagePicker) {
@@ -409,22 +296,299 @@ struct CaptureButtonView: View {
     }
 }
 
-struct TipRow: View {
+// MARK: - Glassmorphic Components
+
+// MARK: - Glassmorphic Capture Header
+struct GlassmorphicCaptureHeader: View {
+    var body: some View {
+        VStack(spacing: 20) {
+            // Camera icon with glassmorphic background
+            ZStack {
+                Circle()
+                    .fill(.ultraThinMaterial)
+                    .frame(width: 100, height: 100)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                    )
+                
+                Image(systemName: "camera.viewfinder")
+                    .font(.system(size: 50))
+                    .foregroundColor(.white)
+            }
+            .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: 10)
+            
+            VStack(spacing: 12) {
+                Text("Scan Receipts")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                
+                Text("Capture or upload receipts to automatically extract and categorize your expenses")
+                    .font(.subheadline)
+                    .foregroundColor(.white.opacity(0.8))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 20)
+            }
+        }
+        .padding(.top, 20)
+    }
+}
+
+// MARK: - Glassmorphic Action Buttons
+struct GlassmorphicActionButtons: View {
+    let onCameraTap: () -> Void
+    let onGalleryTap: () -> Void
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            // Camera Button
+            Button(action: onCameraTap) {
+                HStack(spacing: 16) {
+                    Image(systemName: "camera.fill")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                    
+                    Text("Take Photo")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.right")
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.7))
+                }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 18)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(
+                            LinearGradient(
+                                colors: [Color.blue.opacity(0.8), Color.purple.opacity(0.8)],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                        )
+                )
+                .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 8)
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            // Gallery Button
+            Button(action: onGalleryTap) {
+                HStack(spacing: 16) {
+                    Image(systemName: "photo.on.rectangle")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                    
+                    Text("Choose from Gallery")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.right")
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.7))
+                }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 18)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(.ultraThinMaterial)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                        )
+                )
+                .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 8)
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+        .padding(.horizontal, 20)
+    }
+}
+
+// MARK: - Glassmorphic Processing View
+struct GlassmorphicProcessingView: View {
+    let processingMessage: String
+    let showProcessingSteps: Bool
+    let processingSteps: [String]
+    let currentStep: Int
+    
+    var body: some View {
+        VStack(spacing: 24) {
+            // Processing Animation
+            ZStack {
+                Circle()
+                    .stroke(Color.white.opacity(0.2), lineWidth: 8)
+                    .frame(width: 100, height: 100)
+                
+                Circle()
+                    .trim(from: 0, to: 0.7)
+                    .stroke(
+                        LinearGradient(
+                            colors: [Color.blue, Color.purple],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ),
+                        style: StrokeStyle(lineWidth: 8, lineCap: .round)
+                    )
+                    .frame(width: 100, height: 100)
+                    .rotationEffect(.degrees(-90))
+                    .animation(.linear(duration: 1).repeatForever(autoreverses: false), value: true)
+                
+                Image(systemName: "doc.text.viewfinder")
+                    .font(.title)
+                    .foregroundColor(.white)
+            }
+            
+            VStack(spacing: 16) {
+                Text(processingMessage)
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                
+                if showProcessingSteps {
+                    VStack(spacing: 8) {
+                        ForEach(0..<processingSteps.count, id: \.self) { index in
+                            HStack(spacing: 12) {
+                                Image(systemName: index <= currentStep ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(index <= currentStep ? .green : .white.opacity(0.6))
+                                    .font(.caption)
+                                
+                                Text(processingSteps[index])
+                                    .font(.caption)
+                                    .foregroundColor(.white.opacity(0.8))
+                                
+                                Spacer()
+                            }
+                        }
+                    }
+                    .padding(.top, 8)
+                }
+            }
+        }
+        .padding(24)
+        .background(
+            RoundedRectangle(cornerRadius: 24)
+                .fill(.ultraThinMaterial)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 24)
+                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                )
+        )
+        .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: 10)
+        .padding(.horizontal, 20)
+    }
+}
+
+// MARK: - Glassmorphic Tips Section
+struct GlassmorphicTipsSection: View {
+    var body: some View {
+        VStack(spacing: 20) {
+            HStack {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Tips for Best Results")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                    
+                    Text("Follow these guidelines for optimal receipt scanning")
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.7))
+                }
+                
+                Spacer()
+                
+                // Tips icon
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color.orange.opacity(0.3), Color.yellow.opacity(0.3)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 50, height: 50)
+                        .overlay(
+                            Circle()
+                                .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                        )
+                    
+                    Image(systemName: "lightbulb.fill")
+                        .foregroundColor(.white)
+                        .font(.title2)
+                }
+            }
+            
+            VStack(spacing: 12) {
+                GlassmorphicTipRow(icon: "light.max", text: "Ensure good lighting for clear images")
+                GlassmorphicTipRow(icon: "rectangle.3.group", text: "Include the entire receipt in the frame")
+                GlassmorphicTipRow(icon: "textformat", text: "Make sure text is readable and not blurry")
+                GlassmorphicTipRow(icon: "checkmark.shield", text: "Verify extracted data before saving")
+            }
+        }
+        .padding(24)
+        .background(
+            RoundedRectangle(cornerRadius: 24)
+                .fill(.ultraThinMaterial)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 24)
+                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                )
+        )
+        .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: 10)
+        .padding(.horizontal, 20)
+    }
+}
+
+// MARK: - Glassmorphic Tip Row
+struct GlassmorphicTipRow: View {
     let icon: String
     let text: String
     
     var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: icon)
-                .font(.title3)
-                .foregroundColor(.blue)
-                .frame(width: 24)
+        HStack(spacing: 16) {
+            ZStack {
+                Circle()
+                    .fill(Color.white.opacity(0.1))
+                    .frame(width: 40, height: 40)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                    )
+                
+                Image(systemName: icon)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.white)
+            }
             
             Text(text)
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(.white.opacity(0.9))
             
             Spacer()
         }
+        .padding(.vertical, 8)
+        .padding(.horizontal, 16)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(.ultraThinMaterial)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                )
+        )
     }
 }
+
+// Legacy TipRow struct removed - using GlassmorphicTipRow instead

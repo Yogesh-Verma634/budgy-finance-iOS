@@ -31,6 +31,18 @@
 		191EE5902E542EBF0046BC4D /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE58F2E542EBF0046BC4D /* AppConfig.swift */; };
 		191EE5912E542EBF0046BC4D /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE58F2E542EBF0046BC4D /* AppConfig.swift */; };
 		191EE5922E542EBF0046BC4D /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EE58F2E542EBF0046BC4D /* AppConfig.swift */; };
+		1944E4EB2E5AA77D0020F67D /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1944E4E72E5AA77D0020F67D /* AboutView.swift */; };
+		1944E4EC2E5AA77D0020F67D /* AppPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1944E4E82E5AA77D0020F67D /* AppPreferencesView.swift */; };
+		1944E4ED2E5AA77D0020F67D /* HelpSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1944E4EA2E5AA77D0020F67D /* HelpSupportView.swift */; };
+		1944E4EE2E5AA77D0020F67D /* DataManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1944E4E92E5AA77D0020F67D /* DataManagementView.swift */; };
+		1944E4EF2E5AA77D0020F67D /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1944E4E72E5AA77D0020F67D /* AboutView.swift */; };
+		1944E4F02E5AA77D0020F67D /* AppPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1944E4E82E5AA77D0020F67D /* AppPreferencesView.swift */; };
+		1944E4F12E5AA77D0020F67D /* HelpSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1944E4EA2E5AA77D0020F67D /* HelpSupportView.swift */; };
+		1944E4F22E5AA77D0020F67D /* DataManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1944E4E92E5AA77D0020F67D /* DataManagementView.swift */; };
+		1944E4F32E5AA77D0020F67D /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1944E4E72E5AA77D0020F67D /* AboutView.swift */; };
+		1944E4F42E5AA77D0020F67D /* AppPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1944E4E82E5AA77D0020F67D /* AppPreferencesView.swift */; };
+		1944E4F52E5AA77D0020F67D /* HelpSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1944E4EA2E5AA77D0020F67D /* HelpSupportView.swift */; };
+		1944E4F62E5AA77D0020F67D /* DataManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1944E4E92E5AA77D0020F67D /* DataManagementView.swift */; };
 		1956E3662D1BB185003F6EFF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1956E3652D1BB185003F6EFF /* FirebaseAnalytics */; };
 		1956E3682D1BB393003F6EFF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1956E3672D1BB393003F6EFF /* FirebaseStorage */; };
 		1956E36A2D1BB878003F6EFF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1956E3692D1BB878003F6EFF /* FirebaseFirestore */; };
@@ -93,6 +105,10 @@
 		191EE5872E540B5A0046BC4D /* ImageCaptureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCaptureManager.swift; sourceTree = "<group>"; };
 		191EE58B2E542EA70046BC4D /* BackendReceiptProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendReceiptProcessor.swift; sourceTree = "<group>"; };
 		191EE58F2E542EBF0046BC4D /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		1944E4E72E5AA77D0020F67D /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		1944E4E82E5AA77D0020F67D /* AppPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferencesView.swift; sourceTree = "<group>"; };
+		1944E4E92E5AA77D0020F67D /* DataManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagementView.swift; sourceTree = "<group>"; };
+		1944E4EA2E5AA77D0020F67D /* HelpSupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpSupportView.swift; sourceTree = "<group>"; };
 		1968AE542D221E6400B17682 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		1968AE5B2D2244A300B17682 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		1968AE5E2D2244EE00B17682 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
@@ -198,6 +214,10 @@
 			isa = PBXGroup;
 			children = (
 				1968AE562D221E6400B17682 /* Auth */,
+				1944E4E72E5AA77D0020F67D /* AboutView.swift */,
+				1944E4E82E5AA77D0020F67D /* AppPreferencesView.swift */,
+				1944E4E92E5AA77D0020F67D /* DataManagementView.swift */,
+				1944E4EA2E5AA77D0020F67D /* HelpSupportView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -459,6 +479,10 @@
 				19DF929C2D1E6DD8004D9F7B /* EditReceiptView.swift in Sources */,
 				197B821D2D1CC333000FC681 /* HomeView.swift in Sources */,
 				191EE5852E54074E0046BC4D /* AppError.swift in Sources */,
+				1944E4F32E5AA77D0020F67D /* AboutView.swift in Sources */,
+				1944E4F42E5AA77D0020F67D /* AppPreferencesView.swift in Sources */,
+				1944E4F52E5AA77D0020F67D /* HelpSupportView.swift in Sources */,
+				1944E4F62E5AA77D0020F67D /* DataManagementView.swift in Sources */,
 				191EE5862E54074E0046BC4D /* LoadingStateManager.swift in Sources */,
 				197B820D2D1C89D6000FC681 /* DashboardView.swift in Sources */,
 				19DF92962D1E614D004D9F7B /* FirestoreManager.swift in Sources */,
@@ -486,6 +510,10 @@
 				19113A072E10C0F00046B9D1 /* AppIconView.swift in Sources */,
 				191EE58A2E540B5A0046BC4D /* ImageCaptureManager.swift in Sources */,
 				19CB820A2D1773AD00FB3F19 /* budgyfinanceTests.swift in Sources */,
+				1944E4EB2E5AA77D0020F67D /* AboutView.swift in Sources */,
+				1944E4EC2E5AA77D0020F67D /* AppPreferencesView.swift in Sources */,
+				1944E4ED2E5AA77D0020F67D /* HelpSupportView.swift in Sources */,
+				1944E4EE2E5AA77D0020F67D /* DataManagementView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,6 +526,10 @@
 				19113A082E10C0F00046B9D1 /* ModernAuthView.swift in Sources */,
 				191EE58E2E542EA70046BC4D /* BackendReceiptProcessor.swift in Sources */,
 				191EE5812E54074E0046BC4D /* AppError.swift in Sources */,
+				1944E4EF2E5AA77D0020F67D /* AboutView.swift in Sources */,
+				1944E4F02E5AA77D0020F67D /* AppPreferencesView.swift in Sources */,
+				1944E4F12E5AA77D0020F67D /* HelpSupportView.swift in Sources */,
+				1944E4F22E5AA77D0020F67D /* DataManagementView.swift in Sources */,
 				191EE5822E54074E0046BC4D /* LoadingStateManager.swift in Sources */,
 				19113A092E10C0F00046B9D1 /* AppIconView.swift in Sources */,
 				19113A0F2E14C4DF0046B9D1 /* SecuritySettingsView.swift in Sources */,

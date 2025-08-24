@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainTabView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
-    @StateObject private var firestoreManager = FirestoreManager.shared
+    @EnvironmentObject var firestoreManager: FirestoreManager
     
     var body: some View {
         TabView {
@@ -44,7 +44,6 @@ struct MainTabView: View {
                 }
         }
         .accentColor(.blue)
-        .environmentObject(firestoreManager)
         .onAppear {
             // Ensure user is authenticated and verified
             if !authViewModel.isAuthenticated || !authViewModel.isEmailVerified {
@@ -57,4 +56,5 @@ struct MainTabView: View {
 #Preview {
     MainTabView()
         .environmentObject(AuthViewModel())
+        .environmentObject(FirestoreManager.shared)
 }

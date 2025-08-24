@@ -8,6 +8,8 @@
 import SwiftUI
 import FirebaseAuth
 
+// Import GlassmorphismBackground from HomeView
+
 // MARK: - Section Header Component
 struct SectionHeader: View {
     let title: String
@@ -23,242 +25,125 @@ struct SectionHeader: View {
 
 struct ProfileView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject var firestoreManager: FirestoreManager
     @State private var showLogoutAlert = false
     @State private var showDeleteAccountAlert = false
     @State private var showChangePassword = false
     @State private var showPrivacyPolicy = false
     @State private var showTermsOfService = false
     @State private var showSecuritySettings = false
+    @State private var showAppPreferences = false
+    @State private var showDataManagement = false
+    @State private var showHelpSupport = false
+    @State private var showAbout = false
 
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(spacing: 24) {
-                    // User Profile Header
-                    VStack(spacing: 16) {
-                        // Profile Image
-                        Circle()
-                            .fill(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [.blue, .purple]),
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
+            ZStack {
+                // Animated gradient background
+                GlassmorphismBackground()
+                
+                ScrollView {
+                    VStack(spacing: 20) {
+                        // User Profile Header
+                        GlassmorphicProfileHeader(userEmail: authViewModel.currentUser?.email ?? "User")
+                    
+                        // Account Settings
+                        GlassmorphicSettingsSection(
+                            title: "Account Settings",
+                            items: [
+                                GlassmorphicSettingItem(
+                                    icon: "lock.fill",
+                                    title: "Change Password",
+                                    subtitle: "Update your account password",
+                                    action: { showChangePassword = true }
+                                ),
+                                GlassmorphicSettingItem(
+                                    icon: "envelope.fill",
+                                    title: "Email Settings",
+                                    subtitle: authViewModel.currentUser?.email ?? "No email",
+                                    action: { /* Email settings action */ }
+                                ),
+                                GlassmorphicSettingItem(
+                                    icon: "bell.fill",
+                                    title: "Notifications",
+                                    subtitle: "Manage app notifications",
+                                    action: { /* Notifications settings */ }
                                 )
-                            )
-                            .frame(width: 100, height: 100)
-                            .overlay(
-                                Image(systemName: "person.fill")
-                                    .font(.system(size: 40))
-                                    .foregroundColor(.white)
-                            )
-                            .shadow(color: .blue.opacity(0.3), radius: 10)
-                        
-                        // User Info
-                        VStack(spacing: 8) {
-                            Text(authViewModel.currentUser?.email ?? "User")
-                                .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(.primary)
-                            
-                            HStack {
-                                Image(systemName: "checkmark.seal.fill")
-                                    .foregroundColor(.green)
-                                    .font(.system(size: 14))
-                                
-                                Text("Email Verified")
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                    .padding(.top, 20)
+                            ]
+                        )
                     
-                    // Account Settings
-                    VStack(spacing: 16) {
-                        SectionHeader(title: "Account Settings")
-                        
-                        VStack(spacing: 1) {
-                            ProfileMenuItem(
-                                icon: "lock.fill",
-                                title: "Change Password",
-                                subtitle: "Update your account password"
-                            ) {
-                                showChangePassword = true
-                            }
-                            
-                            Divider()
-                                .padding(.leading, 56)
-                            
-                            ProfileMenuItem(
-                                icon: "envelope.fill",
-                                title: "Email Settings",
-                                subtitle: authViewModel.currentUser?.email ?? "No email"
-                            ) {
-                                // Email settings action
-                            }
-                            
-                            Divider()
-                                .padding(.leading, 56)
-                            
-                            ProfileMenuItem(
-                                icon: "bell.fill",
-                                title: "Notifications",
-                                subtitle: "Manage app notifications"
-                            ) {
-                                // Notifications settings
-                            }
-                        }
-                        .background(Color(.systemBackground))
-                        .cornerRadius(12)
-                        .shadow(color: .black.opacity(0.05), radius: 5)
-                    }
+                        // App Settings
+                        GlassmorphicSettingsSection(
+                            title: "App Settings",
+                            items: [
+                                GlassmorphicSettingItem(
+                                    icon: "gear.fill",
+                                    title: "App Preferences",
+                                    subtitle: "Customize your app experience",
+                                    action: { showAppPreferences = true }
+                                ),
+                                GlassmorphicSettingItem(
+                                    icon: "icloud.fill",
+                                    title: "Data Management",
+                                    subtitle: "Export, import, and manage your data",
+                                    action: { showDataManagement = true }
+                                ),
+                                GlassmorphicSettingItem(
+                                    icon: "shield.fill",
+                                    title: "Privacy & Security",
+                                    subtitle: "Privacy settings and security options",
+                                    action: { showSecuritySettings = true }
+                                )
+                            ]
+                        )
                     
-                    // App Settings
-                    VStack(spacing: 16) {
-                        SectionHeader(title: "App Settings")
-                        
-                        VStack(spacing: 1) {
-                            ProfileMenuItem(
-                                icon: "gear.fill",
-                                title: "General Settings",
-                                subtitle: "App preferences and configuration"
-                            ) {
-                                // General settings
-                            }
-                            
-                            Divider()
-                                .padding(.leading, 56)
-                            
-                            ProfileMenuItem(
-                                icon: "icloud.fill",
-                                title: "Data & Storage",
-                                subtitle: "Manage your data and storage"
-                            ) {
-                                // Data settings
-                            }
-                            
-                            Divider()
-                                .padding(.leading, 56)
-                            
-                            ProfileMenuItem(
-                                icon: "shield.fill",
-                                title: "Privacy & Security",
-                                subtitle: "Privacy settings and security options"
-                            ) {
-                                showSecuritySettings = true
-                            }
-                        }
-                        .background(Color(.systemBackground))
-                        .cornerRadius(12)
-                        .shadow(color: .black.opacity(0.05), radius: 5)
-                    }
+                        // Support & Legal
+                        GlassmorphicSettingsSection(
+                            title: "Support & Legal",
+                            items: [
+                                GlassmorphicSettingItem(
+                                    icon: "questionmark.circle.fill",
+                                    title: "Help & Support",
+                                    subtitle: "Get help and contact support",
+                                    action: { showHelpSupport = true }
+                                ),
+                                GlassmorphicSettingItem(
+                                    icon: "doc.text.fill",
+                                    title: "Privacy Policy",
+                                    subtitle: "Read our privacy policy",
+                                    action: { showPrivacyPolicy = true }
+                                ),
+                                GlassmorphicSettingItem(
+                                    icon: "doc.text.fill",
+                                    title: "Terms of Service",
+                                    subtitle: "Read our terms of service",
+                                    action: { showTermsOfService = true }
+                                ),
+                                GlassmorphicSettingItem(
+                                    icon: "info.circle.fill",
+                                    title: "About",
+                                    subtitle: "App version and information",
+                                    action: { showAbout = true }
+                                )
+                            ]
+                        )
                     
-                    // Support & Legal
-                    VStack(spacing: 16) {
-                        SectionHeader(title: "Support & Legal")
+                        // Account Actions
+                        GlassmorphicAccountActionsSection(
+                            onLogout: { showLogoutAlert = true },
+                            onDeleteAccount: { showDeleteAccountAlert = true }
+                        )
                         
-                        VStack(spacing: 1) {
-                            ProfileMenuItem(
-                                icon: "questionmark.circle.fill",
-                                title: "Help & Support",
-                                subtitle: "Get help and contact support"
-                            ) {
-                                // Help action
-                            }
-                            
-                            Divider()
-                                .padding(.leading, 56)
-                            
-                            ProfileMenuItem(
-                                icon: "doc.text.fill",
-                                title: "Privacy Policy",
-                                subtitle: "Read our privacy policy"
-                            ) {
-                                showPrivacyPolicy = true
-                            }
-                            
-                            Divider()
-                                .padding(.leading, 56)
-                            
-                            ProfileMenuItem(
-                                icon: "doc.text.fill",
-                                title: "Terms of Service",
-                                subtitle: "Read our terms of service"
-                            ) {
-                                showTermsOfService = true
-                            }
-                            
-                            Divider()
-                                .padding(.leading, 56)
-                            
-                            ProfileMenuItem(
-                                icon: "info.circle.fill",
-                                title: "About",
-                                subtitle: "App version and information"
-                            ) {
-                                // About action
-                            }
-                        }
-                        .background(Color(.systemBackground))
-                        .cornerRadius(12)
-                        .shadow(color: .black.opacity(0.05), radius: 5)
+                        Spacer(minLength: 30)
                     }
-                    
-                    // Account Actions
-                    VStack(spacing: 16) {
-                        SectionHeader(title: "Account Actions")
-                        
-                        VStack(spacing: 12) {
-                            // Logout Button
-                            Button(action: {
-                                showLogoutAlert = true
-                            }) {
-                                HStack {
-                                    Image(systemName: "rectangle.portrait.and.arrow.right")
-                                        .foregroundColor(.orange)
-                                        .frame(width: 24)
-                                    
-                                    Text("Sign Out")
-                                        .foregroundColor(.orange)
-                                        .fontWeight(.medium)
-
-            Spacer()
-                                }
-                                .padding()
-                                .background(Color(.systemBackground))
-                                .cornerRadius(12)
-                                .shadow(color: .black.opacity(0.05), radius: 5)
-                            }
-                            
-                            // Delete Account Button
-            Button(action: {
-                                showDeleteAccountAlert = true
-                            }) {
-                                HStack {
-                                    Image(systemName: "trash.fill")
-                                        .foregroundColor(.red)
-                                        .frame(width: 24)
-                                    
-                                    Text("Delete Account")
-                                        .foregroundColor(.red)
-                                        .fontWeight(.medium)
-                                    
-                                    Spacer()
-                                }
-                    .padding()
-                                .background(Color(.systemBackground))
-                                .cornerRadius(12)
-                                .shadow(color: .black.opacity(0.05), radius: 5)
-                            }
-                        }
-                    }
-                    
-                    Spacer(minLength: 40)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
+                    .padding(.bottom, 20)
                 }
-                .padding(.horizontal, 20)
             }
-            .background(Color(.systemGroupedBackground))
-            .navigationTitle("Profile")
-            .navigationBarTitleDisplayMode(.large)
+            .navigationTitle("")
+            .navigationBarHidden(true)
         }
         .alert("Sign Out", isPresented: $showLogoutAlert) {
             Button("Cancel", role: .cancel) { }
@@ -288,6 +173,18 @@ struct ProfileView: View {
         .sheet(isPresented: $showSecuritySettings) {
             SecuritySettingsView()
         }
+        .sheet(isPresented: $showAppPreferences) {
+            AppPreferencesView()
+        }
+        .sheet(isPresented: $showDataManagement) {
+            DataManagementView()
+        }
+        .sheet(isPresented: $showHelpSupport) {
+            HelpSupportView()
+        }
+        .sheet(isPresented: $showAbout) {
+            AboutView()
+        }
     }
     
     private func deleteAccount() {
@@ -302,6 +199,314 @@ struct ProfileView: View {
                 }
             }
         }
+    }
+}
+
+// MARK: - Glassmorphic Components
+
+// MARK: - Glassmorphic Profile Header
+struct GlassmorphicProfileHeader: View {
+    let userEmail: String
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            // Profile Image with glassmorphic background
+            ZStack {
+                Circle()
+                    .fill(.ultraThinMaterial)
+                    .frame(width: 120, height: 120)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                    )
+                
+                Image(systemName: "person.fill")
+                    .font(.system(size: 50))
+                    .foregroundColor(.white)
+            }
+            .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: 10)
+            
+            VStack(spacing: 12) {
+                Text(userEmail)
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                
+                HStack(spacing: 8) {
+                    Image(systemName: "checkmark.seal.fill")
+                        .foregroundColor(.green)
+                        .font(.system(size: 16))
+                    
+                    Text("Email Verified")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundColor(.white.opacity(0.8))
+                }
+            }
+        }
+        .padding(.top, 20)
+    }
+}
+
+// MARK: - Glassmorphic Settings Section
+struct GlassmorphicSettingsSection: View {
+    let title: String
+    let items: [GlassmorphicSettingItem]
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            HStack {
+                Text(title)
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                
+                Spacer()
+                
+                // Section icon
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color.blue.opacity(0.3), Color.purple.opacity(0.3)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 40, height: 40)
+                        .overlay(
+                            Circle()
+                                .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                        )
+                    
+                    Image(systemName: getIconForSection(title))
+                        .foregroundColor(.white)
+                        .font(.system(size: 16, weight: .medium))
+                }
+            }
+            
+            VStack(spacing: 8) {
+                ForEach(items, id: \.title) { item in
+                    GlassmorphicSettingItemView(item: item)
+                }
+            }
+        }
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(.ultraThinMaterial)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                )
+        )
+        .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 8)
+        .padding(.horizontal, 20)
+    }
+    
+    private func getIconForSection(_ title: String) -> String {
+        switch title {
+        case "Account Settings": return "person.circle.fill"
+        case "App Settings": return "gear.circle.fill"
+        case "Support & Legal": return "questionmark.circle.fill"
+        default: return "circle.fill"
+        }
+    }
+}
+
+// MARK: - Glassmorphic Setting Item
+struct GlassmorphicSettingItem {
+    let icon: String
+    let title: String
+    let subtitle: String
+    let action: () -> Void
+}
+
+// MARK: - Glassmorphic Setting Item View
+struct GlassmorphicSettingItemView: View {
+    let item: GlassmorphicSettingItem
+    
+    var body: some View {
+        Button(action: item.action) {
+            HStack(spacing: 16) {
+                ZStack {
+                    Circle()
+                        .fill(Color.white.opacity(0.1))
+                        .frame(width: 44, height: 44)
+                        .overlay(
+                            Circle()
+                                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                        )
+                    
+                    Image(systemName: item.icon)
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundColor(.white)
+                }
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(item.title)
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundColor(.white)
+                    
+                    Text(item.subtitle)
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.7))
+                }
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.6))
+            }
+            .padding(.vertical, 12)
+            .padding(.horizontal, 16)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(.ultraThinMaterial)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                    )
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
+// MARK: - Glassmorphic Account Actions Section
+struct GlassmorphicAccountActionsSection: View {
+    let onLogout: () -> Void
+    let onDeleteAccount: () -> Void
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            HStack {
+                Text("Account Actions")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                
+                Spacer()
+                
+                // Actions icon
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color.orange.opacity(0.3), Color.red.opacity(0.3)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 40, height: 40)
+                        .overlay(
+                            Circle()
+                                .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                        )
+                    
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .foregroundColor(.white)
+                        .font(.system(size: 16, weight: .medium))
+                }
+            }
+            
+            VStack(spacing: 12) {
+                // Logout Button
+                Button(action: onLogout) {
+                    HStack(spacing: 16) {
+                        ZStack {
+                            Circle()
+                                .fill(Color.orange.opacity(0.2))
+                                .frame(width: 44, height: 44)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.orange.opacity(0.4), lineWidth: 1)
+                                )
+                            
+                            Image(systemName: "rectangle.portrait.and.arrow.right")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(.orange)
+                        }
+                        
+                        Text("Sign Out")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundColor(.orange)
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundColor(.orange.opacity(0.6))
+                    }
+                    .padding(.vertical, 12)
+                    .padding(.horizontal, 16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(.ultraThinMaterial)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color.orange.opacity(0.2), lineWidth: 1)
+                            )
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                // Delete Account Button
+                Button(action: onDeleteAccount) {
+                    HStack(spacing: 16) {
+                        ZStack {
+                            Circle()
+                                .fill(Color.red.opacity(0.2))
+                                .frame(width: 44, height: 44)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.red.opacity(0.4), lineWidth: 1)
+                                )
+                            
+                            Image(systemName: "trash.fill")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(.red)
+                        }
+                        
+                        Text("Delete Account")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundColor(.red)
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundColor(.red.opacity(0.6))
+                    }
+                    .padding(.vertical, 12)
+                    .padding(.horizontal, 16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(.ultraThinMaterial)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color.red.opacity(0.2), lineWidth: 1)
+                            )
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+        }
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(.ultraThinMaterial)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                )
+        )
+        .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 8)
+        .padding(.horizontal, 20)
     }
 }
 

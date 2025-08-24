@@ -12,6 +12,7 @@ import FirebaseAuth
 @main
 struct BudgyFinanceApp: App {
     @StateObject private var authViewModel = AuthViewModel()
+    @StateObject private var firestoreManager = FirestoreManager.shared
     
     init() {
         FirebaseApp.configure()
@@ -26,7 +27,9 @@ struct BudgyFinanceApp: App {
                         case .initial: SplashScreenView()
                         case .signingIn, .signingUp: LoadingView()
                         case .emailVerificationRequired: EmailVerificationRequiredView()
-                        case .authenticated: MainTabView().environmentObject(authViewModel)
+                        case .authenticated: MainTabView()
+                            .environmentObject(authViewModel)
+                            .environmentObject(firestoreManager)
                         case .signedOut: ModernAuthView().environmentObject(authViewModel)
                         case .error: ErrorView()
                     }
